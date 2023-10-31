@@ -86,7 +86,6 @@ export default (props = {}) => {
                   <Image src={ProfilePicture} className="card-img-top rounded-circle border-white" />
                 </div>
                 <div className="d-block">
-                  <h6>Hi, Jane</h6>
                   <Button as={Link} variant="secondary" size="xs" to={Routes.Signin.path} className="text-dark">
                     <FontAwesomeIcon icon={faSignOutAlt} className="me-2" /> Sign Out
                   </Button>
@@ -108,7 +107,7 @@ export default (props = {}) => {
                 <NavItem title="B2B Till" link={Routes.DocsOverview.path} />
                 <NavItem title="B2C" link={Routes.DocsDownload.path} />
                 <NavItem title="STK  push" link={Routes.DocsQuickStart.path} />
-                <NavItem title="B2B Paybill" link={Routes.DocsLicense.path} />
+                
                 
               </CollapsableNavItem>
 
@@ -125,7 +124,7 @@ export default (props = {}) => {
 
              
              
-              <NavItem external title="Developer Docs" link="/" target="_blank"  />
+              <NavItem external title="Developer Docs" link="#" target="_blank"  />
             </Nav>
           </div>
         </SimpleBar>

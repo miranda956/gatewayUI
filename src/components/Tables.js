@@ -200,32 +200,29 @@ export const TransactionsTable = () => {
       <tr>
         <td>
           <Card.Link as={Link} to={Routes.Invoice.path} className="fw-normal">
-            {invoiceNumber}
+            
           </Card.Link>
         </td>
         <td>
           <span className="fw-normal">
-            {subscription}
+          
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            {issueDate}
+         
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            {dueDate}
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            ${parseFloat(price).toFixed(2)}
           </span>
         </td>
         <td>
           <span className={`fw-normal text-${statusVariant}`}>
-            {status}
           </span>
         </td>
         <td>
@@ -258,11 +255,12 @@ export const TransactionsTable = () => {
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>
-              <th className="border-bottom">#</th>
-              <th className="border-bottom">Bill For</th>
-              <th className="border-bottom">Issue Date</th>
-              <th className="border-bottom">Due Date</th>
-              <th className="border-bottom">Total</th>
+              <th className="border-bottom">transaction_id</th>
+              <th className="border-bottom">Service</th>
+              <th className="border-bottom"> Account</th>
+              <th className="border-bottom"> Date</th>
+              <th className="border-bottom">Amount</th>
+              
               <th className="border-bottom">Status</th>
               <th className="border-bottom">Action</th>
             </tr>
