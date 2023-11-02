@@ -54,7 +54,7 @@ export default () => {
         </Row>
       </div>
 
-      <TransactionsTable />
+      <TransactionsTable isAdmin={true}/>
     </>
   );
 };

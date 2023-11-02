@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Row, Col, Card, Container } from '@themesberg/react-bootstrap';
+import { ServicesTable } from '../../components/Tables';
+
 
 
 export default () => (
@@ -10,7 +12,9 @@ export default () => (
         <Card>
           <Card.Body>
             <article>
-              <h1 className="h2" id="overview">B2B TILL HERE  </h1>
+              <h1 className="h2" id="overview">Service Reports</h1>
+                < ServicesTable />
+              
             
             </article>
           </Card.Body>

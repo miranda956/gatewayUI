@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxOpen, faCartArrowDown, faChartPie, faChevronDown, faClipboard, faCommentDots, faFileAlt, faPlus, faRocket, faStore } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row, Button, Dropdown } from '@themesberg/react-bootstrap';
 import { ChoosePhotoWidget, ProfileCardWidget } from "../components/Widgets";
-import { GeneralInfoForm } from "../components/Forms";
+import { GeneralInfoForm, UserSearch } from "../components/Forms";
 
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
-import { ChannelsTable, CommandsTable, MerchantsTable, TransactionsTable } from "../components/Tables";
+import { ChannelsTable, CommandsTable, UsersTable, TransactionsTable } from "../components/Tables";
 
 
 export default () => {
@@ -69,11 +69,13 @@ export default () => {
 
       <Row>
         <Col xs={12} xl={8}>
-          <GeneralInfoForm />
+        < UserSearch />
         </Col>
       </Row>
 
-      <ChannelsTable />
+      <UsersTable />
+
+      
       
     </>
   );

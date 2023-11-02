@@ -1,14 +1,16 @@
 
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp, faArrowDown, faArrowUp, faEdit, faEllipsisH, faExternalLinkAlt, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleUp, faArrowDown, faArrowUp, faEdit,faEnvelopeOpen,faEllipsisH, faExternalLinkAlt, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row, Nav, Card, Image, Button, Table, Dropdown, ProgressBar, Pagination, ButtonGroup } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import { Routes } from "../routes";
 import { pageVisits, pageTraffic, pageRanking } from "../data/tables";
 import transactions from "../data/transactions";
+import channels from "../data/channels";
 import commands from "../data/commands";
+import users from "../data/users";
 
 const ValueChange = ({ value, suffix }) => {
   const valueIcon = value < 0 ? faAngleDown : faAngleUp;
@@ -187,40 +189,47 @@ export const RankingTable = () => {
   );
 };
 
-export const TransactionsTable = () => {
+export const TransactionsTable = ({isAdmin}) => {
   const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
-    const { invoiceNumber, subscription, price, issueDate, dueDate, status } = props;
+    const { transactionId, service, account,date,amount, status,merchantId } = props;
     const statusVariant = status === "Paid" ? "success"
       : status === "Due" ? "warning"
         : status === "Canceled" ? "danger" : "primary";
 
     return (
       <tr>
-        <td>
-          <Card.Link as={Link} to={Routes.Invoice.path} className="fw-normal">
-            {invoiceNumber}
-          </Card.Link>
-        </td>
+        {isAdmin && (
+          <td>
+            <span className="fw-normal">
+              {merchantId}
+            </span>
+          </td>
+        )}
         <td>
           <span className="fw-normal">
-            {subscription}
+            {transactionId}
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            {issueDate}
+            {service}
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            {dueDate}
+            {account}
           </span>
         </td>
         <td>
           <span className="fw-normal">
-            ${parseFloat(price).toFixed(2)}
+            {date}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            ${parseFloat(amount).toFixed(2)}
           </span>
         </td>
         <td>
@@ -242,9 +251,9 @@ export const TransactionsTable = () => {
               <Dropdown.Item>
                 <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
               </Dropdown.Item>
-              <Dropdown.Item className="text-danger">
+              {/* <Dropdown.Item className="text-danger">
                 <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
-              </Dropdown.Item>
+              </Dropdown.Item> */}
             </Dropdown.Menu>
           </Dropdown>
         </td>
@@ -258,17 +267,18 @@ export const TransactionsTable = () => {
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>
-              <th className="border-bottom">#</th>
-              <th className="border-bottom">Bill For</th>
-              <th className="border-bottom">Issue Date</th>
-              <th className="border-bottom">Due Date</th>
-              <th className="border-bottom">Total</th>
-              <th className="border-bottom">Status</th>
-              <th className="border-bottom">Action</th>
+              {isAdmin && (<th className="border-bottom">MERCHANT_ID</th>)}             
+              <th className="border-bottom">TRANSACTION_ID</th>
+              <th className="border-bottom">SERVICE</th>
+              <th className="border-bottom">ACCOUNT</th>
+              <th className="border-bottom">DATE</th>
+              <th className="border-bottom">AMOUNT</th>
+              <th className="border-bottom">STATUS</th>
+              <th className="border-bottom">ACTION</th>
             </tr>
           </thead>
           <tbody>
-            {transactions.map(t => <TableRow key={`transaction-${t.invoiceNumber}`} {...t} />)}
+            {transactions.map(t => <TableRow key={`transaction-${t.Transaction_Id}`} {...t} />)}
           </tbody>
         </Table>
         <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
@@ -340,6 +350,331 @@ export const CommandsTable = () => {
             {commands.map(c => <TableRow key={`command-${c.id}`} {...c} />)}
           </tbody>
         </Table>
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const ChannelsTable = () => {
+  const totalChannels = channels.length;
+
+  const TableRow = (props) => {
+    const {channelName,userName,callbackUrl,shortCode,status} = props;
+    const statusVariant = status === "Active" ? "success"
+      : status === "Dormant" ? "warning"
+        : status === "Inactive" ? "danger" : "primary";
+    
+
+    return (
+      <tr>       
+        <td>
+          <span className="fw-normal">
+            {channelName}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {userName}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {callbackUrl}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {shortCode}
+          </span>
+        </td>       
+        <td>
+          <span className={`fw-normal text-${statusVariant}`}>
+            {status}
+          </span>
+        </td>
+        <td>
+          <Dropdown as={ButtonGroup}>
+            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
+              <span className="icon icon-sm">
+                <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
+              </span>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit Channel
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </td>
+      </tr>
+    );
+  };
+
+  return (
+    <Card border="light" className="table-wrapper table-responsive shadow-sm">
+      <Card.Body className="pt-0">
+      <h5 className="mb-4 mt-4">Channels</h5>
+
+        <Table hover className="user-table align-items-center">
+          <thead>
+            <tr>         
+              <th className="border-bottom">CHANNEL_NAME</th>
+              <th className="border-bottom">USER_NAME</th>
+              <th className="border-bottom">CALLBACK_URL</th>
+              <th className="border-bottom">SHORTCODE</th>
+              <th className="border-bottom">STATUS</th>
+              <th className="border-bottom">ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            {channels.map(channel => <TableRow key={`channel-${channel.channelId}`} {...channel} />)}
+          </tbody>
+        </Table>
+        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+          <Nav>
+            <Pagination className="mb-2 mb-lg-0">
+              <Pagination.Prev>
+                Previous
+              </Pagination.Prev>
+              <Pagination.Item active>1</Pagination.Item>
+              <Pagination.Item>2</Pagination.Item>
+              <Pagination.Item>3</Pagination.Item>
+              <Pagination.Item>4</Pagination.Item>
+              <Pagination.Item>5</Pagination.Item>
+              <Pagination.Next>
+                Next
+              </Pagination.Next>
+            </Pagination>
+          </Nav>
+          <small className="fw-bold">
+            Showing <b>{totalChannels}</b> out of <b>25</b> entries
+          </small>
+        </Card.Footer>
+      </Card.Body>
+    </Card>
+  );
+};
+
+
+
+export const UsersTable = () => {
+  const allUsers = users.length;
+
+  const TableRow = (props) => {
+    const {name,phone,email,joinDate,status,lastLogin} = props;
+    const statusVariant = status === "Active" ? "success"
+      : status === "Dormant" ? "warning"
+        : status === "Inactive" ? "danger" : "primary";
+    
+
+    return (
+      <tr>       
+        <td>
+          <span className="fw-normal">
+            {name}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {phone}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {email}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {joinDate}
+          </span>
+        </td>       
+        <td>
+          <span className={`fw-normal text-${statusVariant}`}>
+            {status}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {lastLogin}
+          </span>
+        </td>
+        
+        <td>
+          <Dropdown as={ButtonGroup}>
+            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
+              <span className="icon icon-sm">
+                <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
+              </span>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit Details
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" /> Send Mail
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </td>
+      </tr>
+    );
+  };
+
+  return (
+    <Card border="light" className="table-wrapper table-responsive shadow-sm">
+      <Card.Body className="pt-0">
+
+      <h5 className="mb-4 mt-4">Users list</h5>
+        <Table hover className="user-table align-items-center">
+          <thead>
+            <tr>       
+              <th className="border-bottom">NAME</th>
+              <th className="border-bottom">PHONE</th>
+              <th className="border-bottom">EMAIL</th>
+              <th className="border-bottom">JOIN_DATE</th>
+              <th className="border-bottom">STATUS</th>
+              <th className="border-bottom">LAST_LOGIN</th>
+              <th className="border-bottom">ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map(user => <TableRow key={`user-${user.id}`} {...user} />)}
+          </tbody>
+        </Table>
+        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+          <Nav>
+            <Pagination className="mb-2 mb-lg-0">
+              <Pagination.Prev>
+                Previous
+              </Pagination.Prev>
+              <Pagination.Item active>1</Pagination.Item>
+              <Pagination.Item>2</Pagination.Item>
+              <Pagination.Item>3</Pagination.Item>
+              <Pagination.Item>4</Pagination.Item>
+              <Pagination.Item>5</Pagination.Item>
+              <Pagination.Next>
+                Next
+              </Pagination.Next>
+            </Pagination>
+          </Nav>
+          <small className="fw-bold">
+            Showing <b>{allUsers}</b> out of <b>25</b> entries
+          </small>
+        </Card.Footer>
+      </Card.Body>
+    </Card>
+  );
+};
+
+
+export const ServicesTable = ({isAdmin}) => {
+  const totalTransactions = transactions.length;
+
+  const TableRow = (props) => {
+    const { transactionId, service, account,date,amount, status,merchantId } = props;
+    const statusVariant = status === "Paid" ? "success"
+      : status === "Due" ? "warning"
+        : status === "Canceled" ? "danger" : "primary";
+
+    return (
+      <tr>
+        {isAdmin && (
+          <td>
+            <span className="fw-normal">
+              {merchantId}
+            </span>
+          </td>
+        )}
+        <td>
+          <span className="fw-normal">
+            {transactionId}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {service}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {account}
+          </span>
+        </td>
+        
+        <td>
+          <span className={`fw-normal text-${statusVariant}`}>
+            {status}
+          </span>
+        </td>
+        <td>
+          <Dropdown as={ButtonGroup}>
+            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
+              <span className="icon icon-sm">
+                <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
+              </span>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
+              </Dropdown.Item>
+              {/* <Dropdown.Item className="text-danger">
+                <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
+              </Dropdown.Item> */}
+            </Dropdown.Menu>
+          </Dropdown>
+        </td>
+      </tr>
+    );
+  };
+
+  return (
+    <Card border="light" className="table-wrapper table-responsive shadow-sm">
+      <Card.Body className="pt-0">
+        <Table hover className="user-table align-items-center">
+          <thead>
+            <tr>
+              {isAdmin && (<th className="border-bottom">MERCHANT_ID</th>)}             
+              <th className="border-bottom">SERVICE_ID</th>
+              <th className="border-bottom">DESCRIPTION</th>
+              <th className="border-bottom">DURATION</th>
+              <th className="border-bottom">STATUS</th>
+              <th className="border-bottom">ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map(t => <TableRow key={`transaction-${t.Transaction_Id}`} {...t} />)}
+          </tbody>
+        </Table>
+        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+          <Nav>
+            <Pagination className="mb-2 mb-lg-0">
+              <Pagination.Prev>
+                Previous
+              </Pagination.Prev>
+              <Pagination.Item active>1</Pagination.Item>
+              <Pagination.Item>2</Pagination.Item>
+              <Pagination.Item>3</Pagination.Item>
+              <Pagination.Item>4</Pagination.Item>
+              <Pagination.Item>5</Pagination.Item>
+              <Pagination.Next>
+                Next
+              </Pagination.Next>
+            </Pagination>
+          </Nav>
+          <small className="fw-bold">
+            Showing <b>{totalTransactions}</b> out of <b>25</b> entries
+          </small>
+        </Card.Footer>
       </Card.Body>
     </Card>
   );

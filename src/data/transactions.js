@@ -3,83 +3,93 @@ import moment from "moment-timezone";
 
 export default [
     {
-        "invoiceNumber": 300500,
+        "transactionId": 300500,
         "status": "Paid",
-        "subscription": "Platinum Subscription Plan",
-        "price": "799,00",
-        "issueDate": moment().subtract(1, "days").format("DD MMM YYYY"),
-        "dueDate": moment().subtract(1, "days").add(1, "month").format("DD MMM YYYY")
+        "service": "B2B",
+        "amount": "799,00",
+        "date": moment().subtract(1, "days").add(1, "month").format("DD MMM YYYY"),
+        "account": "regular",
+        "merchantId": 23455
     },
     {
-        "invoiceNumber": 300499,
+        "transactionId": 300499,
         "status": "Paid",
-        "subscription": "Platinum Subscription Plan",
-        "price": "799,00",
-        "issueDate": moment().subtract(2, "days").format("DD MMM YYYY"),
-        "dueDate": moment().subtract(2, "days").add(1, "month").format("DD MMM YYYY")
+        "service": "B2B",
+        "amount": "799,00",
+        "date": moment().subtract(2, "days").add(1, "month").format("DD MMM YYYY"),
+        "account": "regular",
+        "merchantId": 23455867
     },
     {
-        "invoiceNumber": 300498,
+        "transactionId": 300498,
         "status": "Paid",
-        "subscription": "Platinum Subscription Plan",
-        "price": "799,00",
-        "issueDate": moment().subtract(2, "days").format("DD MMM YYYY"),
-        "dueDate": moment().subtract(2, "days").add(1, "month").format("DD MMM YYYY")
+        "service": "B2B",
+        "amount": "799,00",
+        "date": moment().subtract(2, "days").add(1, "month").format("DD MMM YYYY"),
+        "account": "basic",
+        "merchantId": 2345570
     },
     {
-        "invoiceNumber": 300497,
+        "transactionId": 300497,
         "status": "Paid",
-        "subscription": "Flexible Subscription Plan",
-        "price": "233,42",
-        "issueDate": moment().subtract(3, "days").format("DD MMM YYYY"),
-        "dueDate": moment().subtract(3, "days").add(1, "month").format("DD MMM YYYY")
+        "service": "STK push",
+        "amount": "233,42",
+        "date": moment().subtract(3, "days").add(1, "month").format("DD MMM YYYY"),
+        "account": "regular",
+        "merchantId": 23455246
     },
     {
-        "invoiceNumber": 300496,
+        "transactionId": 300496,
         "status": "Due",
-        "subscription": "Gold Subscription Plan",
-        "price": "533,42",
-        "issueDate": moment().subtract(1, "day").subtract(1, "month").format("DD MMM YYYY"),
-        "dueDate": moment().subtract(1, "day").format("DD MMM YYYY")
+        "service": "B2C",
+        "amount": "533,42",
+        "date": moment().subtract(1, "day").format("DD MMM YYYY"),
+        "account": "premium",
+        "merchantId": 23455868
     },
     {
-        "invoiceNumber": 300495,
+        "transactionId": 300495,
         "status": "Due",
-        "subscription": "Gold Subscription Plan",
-        "price": "533,42",
-        "issueDate": moment().subtract(3, "days").subtract(1, "month").format("DD MMM YYYY"),
-        "dueDate": moment().subtract(3, "days").format("DD MMM YYYY")
+        "service": "B2C",
+        "amount": "533,42",
+        "date": moment().subtract(3, "days").format("DD MMM YYYY"),
+        "account": "regular",
+        "merchantId": 2345574
     },
     {
-        "invoiceNumber": 300494,
+        "transactionId": 300494,
         "status": "Due",
-        "subscription": "Flexible Subscription Plan",
-        "price": "233,42",
-        "issueDate": moment().subtract(4, "days").subtract(1, "month").format("DD MMM YYYY"),
-        "dueDate": moment().subtract(4, "days").format("DD MMM YYYY")
+        "service": "B2B Paybill",
+        "amount": "233,42",
+        "date": moment().subtract(4, "days").format("DD MMM YYYY"),
+        "account": "regular",
+        "merchantId": 23455357
     },
     {
-        "invoiceNumber": 300493,
+        "transactionId": 300493,
         "status": "Canceled",
-        "subscription": "Gold Subscription Plan",
-        "price": "533,42",
-        "issueDate": moment().subtract(20, "days").subtract(1, "month").format("DD MMM YYYY"),
-        "dueDate": moment().subtract(20, "days").format("DD MMM YYYY")
+        "service": "STK push",
+        "amount": "533,42",    
+        "date": moment().subtract(20, "days").format("DD MMM YYYY"),
+        "account": "premium",
+        "merchantId": 23455056
     },
     {
-        "invoiceNumber": 300492,
+        "transactionId": 300492,
         "status": "Canceled",
-        "subscription": "Platinum Subscription Plan",
-        "price": "799,00",
-        "issueDate": moment().subtract(2, "months").format("DD MMM YYYY"),
-        "dueDate": moment().subtract(3, "months").format("DD MMM YYYY")
+        "service": "B2B Till",
+        "amount": "799,00",       
+        "date": moment().subtract(3, "months").format("DD MMM YYYY"),
+        "account": "premium",
+        "merchantId": 2345534567
     },
     {
-        "invoiceNumber": 300491,
+        "transactionId": 300491,
         "status": "Paid",
-        "subscription": "Platinum Subscription Plan",
-        "price": "799,00",
-        "issueDate": moment().subtract(6, "days").format("DD MMM YYYY"),
-        "dueDate": moment().subtract(6, "days").add(1, "month").format("DD MMM YYYY")
+        "service": "B2C",
+        "amount": "799,00",
+        "date": moment().subtract(6, "days").add(1, "month").format("DD MMM YYYY"),
+        "account": "regular",
+        "merchantId": 23456455
     }
 ]

@@ -4,7 +4,7 @@ import SimpleBar from 'simplebar-react';
 import { useLocation } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faBoxOpen, faChartPie, faCog, faFileAlt, faHandHoldingUsd, faSignOutAlt, faTable, faTimes, faCalendarAlt, faMapPin, faInbox, faRocket,faFolder,faBroadcastTower } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBoxOpen, faChartPie, faCog, faFileAlt, faHandHoldingUsd, faSignOutAlt,faUsers, faTable, faTimes, faCalendarAlt, faMapPin, faInbox, faRocket,faFolder,faBroadcastTower } from "@fortawesome/free-solid-svg-icons";
 import { Nav, Badge, Image, Button, Dropdown, Accordion, Navbar } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -100,15 +100,16 @@ export default (props = {}) => {
               <NavItem title="JIBOOST"   />
 
               <NavItem title="Dashboard" link={Routes.DashboardOverview.path} icon={faChartPie} />
+              <NavItem title="User Management" link={Routes.Usermanagement.path} icon={faUsers} />
               <CollapsableNavItem title ="Channels" icon={faBroadcastTower} link={Routes.Settings.path}>
               <NavItem title="Channel" icon={faFolder} link={Routes.Settings.path} />
               </CollapsableNavItem>
 
               <CollapsableNavItem eventKey="documentation/" title="Services" icon={faBook}>
-                <NavItem title="B2B Till" link={Routes.DocsOverview.path} />
-                <NavItem title="B2C" link={Routes.DocsDownload.path} />
+                <NavItem title="Services Report" link={Routes.DocsOverview.path} />
+                {/* <NavItem title="B2C" link={Routes.DocsDownload.path} />
                 <NavItem title="STK  push" link={Routes.DocsQuickStart.path} />
-                <NavItem title="B2B Paybill" link={Routes.DocsLicense.path} />
+                <NavItem title="B2B Paybill" link={Routes.DocsLicense.path} /> */}
                 
               </CollapsableNavItem>
 

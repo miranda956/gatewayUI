@@ -46,24 +46,24 @@ export default () => {
           }
           scope={{ Form, InputGroup, FontAwesomeIcon, faSearch }}
           imports={`import { Form, InputGroup } from '@themesberg/react-bootstrap';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";`}
+            import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+            import { faSearch } from "@fortawesome/free-solid-svg-icons";`}
           example={`<Form>
-  <Form.Group className="mb-3">
-    <Form.Label>Icon Left</Form.Label>
-    <InputGroup>
-      <InputGroup.Text><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
-      <Form.Control type="text" placeholder="Search" />
-    </InputGroup>
-  </Form.Group>
-  <Form.Group className="mb-3">
-    <Form.Label>Icon Right</Form.Label>
-    <InputGroup>
-      <Form.Control type="text" placeholder="Search" />
-      <InputGroup.Text><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
-    </InputGroup>
-  </Form.Group>
-</Form>`}
+            <Form.Group className="mb-3">
+              <Form.Label>Icon Left</Form.Label>
+              <InputGroup>
+                <InputGroup.Text><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
+                <Form.Control type="text" placeholder="Search" />
+              </InputGroup>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Icon Right</Form.Label>
+              <InputGroup>
+                <Form.Control type="text" placeholder="Search" />
+                <InputGroup.Text><FontAwesomeIcon icon={faSearch} /></InputGroup.Text>
+              </InputGroup>
+            </Form.Group>
+          </Form>`}
         />
 
         <Documentation
