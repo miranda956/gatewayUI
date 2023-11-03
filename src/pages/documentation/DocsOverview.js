@@ -10,13 +10,16 @@ export default () => (
     <Row>
       <Col xs={12} className="p-3">
         <Card>
+
+       
           <Card.Body>
-            <article>
-              <h1 className="h2" id="overview">Service Reports</h1>
+         
+          <h1 className="h2" id="overview">Service Reports</h1>
+              
                 < ServicesTable />
               
             
-            </article>
+     
           </Card.Body>
         </Card>
       </Col>

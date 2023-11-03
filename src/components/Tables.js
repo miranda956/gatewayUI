@@ -1,9 +1,11 @@
 
-import React from "react";
+import React, {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp, faArrowDown, faArrowUp, faEdit,faEnvelopeOpen,faEllipsisH, faExternalLinkAlt, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Nav, Card, Image, Button, Table, Dropdown, ProgressBar, Pagination, ButtonGroup } from '@themesberg/react-bootstrap';
+import { faAngleDown, faAngleUp, faArrowDown, faArrowUp,faShare, faEdit,faEnvelopeOpen,faEllipsisH, faExternalLinkAlt, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { Col, Row, Nav, Card, Image, Button,Form, Table, Dropdown,Modal, ProgressBar, Pagination, ButtonGroup } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
+
+
 
 import { Routes } from "../routes";
 import { pageVisits, pageTraffic, pageRanking } from "../data/tables";
@@ -249,7 +251,7 @@ export const TransactionsTable = ({isAdmin}) => {
                 <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
               </Dropdown.Item>
               <Dropdown.Item>
-                <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
+                <FontAwesomeIcon icon={faShare} className="me-2" /> Share
               </Dropdown.Item>
               {/* <Dropdown.Item className="text-danger">
                 <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
@@ -264,6 +266,8 @@ export const TransactionsTable = ({isAdmin}) => {
   return (
     <Card border="light" className="table-wrapper table-responsive shadow-sm">
       <Card.Body className="pt-0">
+
+      <h5 className="mb-4 mt-4">Transactions Report</h5>
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>
@@ -573,25 +577,188 @@ export const UsersTable = () => {
   );
 };
 
+export const StaffTable = () => {
+  const allUsers = users.length;
+
+  const [modal, setModal] = useState(false);
+  const[selectedRole, setSelectedRole]= useState('')
+
+  const openModal = () => {
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
+
+  const handleRoleSelection =(e)=>{
+      setSelectedRole(e.target.value)
+  }
+
+
+  const TableRow = (props) => {
+    const {name,phone,email,status,lastLogin,id} = props;
+    const statusVariant = status === "Active" ? "success"
+      : status === "Dormant" ? "warning"
+        : status === "Inactive" ? "danger" : "primary";
+    
+
+    return (
+      <tr>   
+        <td>
+          <span className="fw-normal">
+            {id}
+          </span>
+        </td>   
+        <td>
+          <span className="fw-normal">
+            {name}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {phone}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {email}
+          </span>
+        </td>     
+        <td>
+          <span className={`fw-normal text-${statusVariant}`}>
+            {status}
+          </span>
+        </td>
+        <td>
+          <span className="fw-normal">
+            {lastLogin}
+          </span>
+        </td>
+        
+        <td>
+          <Dropdown as={ButtonGroup}>
+            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
+              <span className="icon icon-sm">
+                <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
+              </span>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit Details
+              </Dropdown.Item>
+              <Dropdown.Item onClick={openModal}>
+                <FontAwesomeIcon icon={faEdit} className="me-2" /> Assign Role
+              </Dropdown.Item>
+
+              <Dropdown.Item>
+                <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" /> Send Mail
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </td>
+      </tr>
+    );
+  };
+
+  return (
+
+    <>
+
+    <Card border="light" className="table-wrapper table-responsive shadow-sm">
+      <Card.Body className="pt-0">
+
+      <h5 className="mb-4 mt-4">Staff</h5>
+        <Table hover className="user-table align-items-center">
+          <thead>
+            <tr>       
+              <th className="border-bottom">MERCHANT_ID</th>
+              <th className="border-bottom">NAME</th>
+              <th className="border-bottom">PHONE</th>
+              <th className="border-bottom">EMAIL</th>
+              <th className="border-bottom">STATUS</th>
+              <th className="border-bottom">LAST_LOGIN</th>
+              <th className="border-bottom">ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map(user => <TableRow key={`user-${user.id}`} {...user} />)}
+          </tbody>
+        </Table>
+        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+          <Nav>
+            <Pagination className="mb-2 mb-lg-0">
+              <Pagination.Prev>
+                Previous
+              </Pagination.Prev>
+              <Pagination.Item active>1</Pagination.Item>
+              <Pagination.Item>2</Pagination.Item>
+              <Pagination.Item>3</Pagination.Item>
+              <Pagination.Item>4</Pagination.Item>
+              <Pagination.Item>5</Pagination.Item>
+              <Pagination.Next>
+                Next
+              </Pagination.Next>
+            </Pagination>
+          </Nav>
+          <small className="fw-bold">
+            Showing <b>{allUsers}</b> out of <b>25</b> entries
+          </small>
+        </Card.Footer>
+      </Card.Body>
+    </Card>
+
+    <Modal show={modal} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Assign Role</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <Form.Group className="mb-3">
+            <Form.Label>Select Role</Form.Label>
+            <Form.Select value={selectedRole} onChange={handleRoleSelection}>
+              <option value="Merchant">Merchant</option>
+              <option value="Client">Client</option>
+            </Form.Select>
+          </Form.Group>       
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={closeModal}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    
+    
+    </>
+
+  );
+};
+
+
+
 
 export const ServicesTable = ({isAdmin}) => {
   const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
-    const { transactionId, service, account,date,amount, status,merchantId } = props;
+    const { transactionId, service, account,status,merchantId } = props;
     const statusVariant = status === "Paid" ? "success"
       : status === "Due" ? "warning"
         : status === "Canceled" ? "danger" : "primary";
 
     return (
       <tr>
-        {isAdmin && (
           <td>
             <span className="fw-normal">
               {merchantId}
             </span>
           </td>
-        )}
         <td>
           <span className="fw-normal">
             {transactionId}
@@ -640,10 +807,12 @@ export const ServicesTable = ({isAdmin}) => {
   return (
     <Card border="light" className="table-wrapper table-responsive shadow-sm">
       <Card.Body className="pt-0">
+
+      <h5 className="mb-4 mt-4">Services Reports</h5>
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>
-              {isAdmin && (<th className="border-bottom">MERCHANT_ID</th>)}             
+              <th className="border-bottom">MERCHANT_ID</th>           
               <th className="border-bottom">SERVICE_ID</th>
               <th className="border-bottom">DESCRIPTION</th>
               <th className="border-bottom">DURATION</th>

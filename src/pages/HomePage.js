@@ -8,7 +8,6 @@ import Upgrade from "./Upgrade";
 import DashboardOverview from "./dashboard/DashboardOverview";
 import Transactions from "./Transactions";
 import Settings from "./Settings";
-import BootstrapTables from "./tables/BootstrapTables";
 import Signin from "./examples/Signin";
 import Signup from "./examples/Signup";
 import ForgotPassword from "./examples/ForgotPassword";
@@ -16,6 +15,9 @@ import ResetPassword from "./examples/ResetPassword";
 import Lock from "./examples/Lock";
 import NotFoundPage from "./examples/NotFound";
 import ServerError from "./examples/ServerError";
+import UserManagement from './UserManagement';
+import Merchants from './Merchants';
+import Services from './Services';
 
 // documentation pages
 import DocsOverview from "./documentation/DocsOverview";
@@ -48,7 +50,8 @@ import Tables from "./components/Tables";
 import Tabs from "./components/Tabs";
 import Tooltips from "./components/Tooltips";
 import Toasts from "./components/Toasts";
-import UserManagement from './UserManagement';
+import Reports from './Reports';
+
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
@@ -115,8 +118,12 @@ export default () => (
     <RouteWithSidebar exact path={Routes.Upgrade.path} component={Upgrade} />
     <RouteWithSidebar exact path={Routes.Transactions.path} component={Transactions} />
     <RouteWithSidebar exact path={Routes.Settings.path} component={Settings} />
-    <RouteWithSidebar exact path={Routes.BootstrapTables.path} component={BootstrapTables} />
     <RouteWithSidebar exact path={Routes.Usermanagement.path} component={UserManagement} />
+    <RouteWithSidebar exact path={Routes.Merchants.path} component={Merchants} />
+    <RouteWithSidebar exact path={Routes.Services.path} component={Services} />
+    <RouteWithSidebar exact path={Routes.Reports.path} component={Reports} />
+
+
 
     {/* components */}
     <RouteWithSidebar exact path={Routes.Accordions.path} component={Accordion} />

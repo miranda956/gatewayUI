@@ -101,27 +101,27 @@ export default (props = {}) => {
 
               <NavItem title="Dashboard" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <NavItem title="User Management" link={Routes.Usermanagement.path} icon={faUsers} />
+              <NavItem title="Merchants" link={Routes.Merchants.path} icon={faUsers} />
               <CollapsableNavItem title ="Channels" icon={faBroadcastTower} link={Routes.Settings.path}>
               <NavItem title="Channel" icon={faFolder} link={Routes.Settings.path} />
               </CollapsableNavItem>
+              <NavItem title="Services" link={Routes.Services.path} icon={faBook} />
 
-              <CollapsableNavItem eventKey="documentation/" title="Services" icon={faBook}>
-                <NavItem title="Services Report" link={Routes.DocsOverview.path} />
+
+              {/* <CollapsableNavItem eventKey="documentation/" title="Services" icon={faBook}>
+                <NavItem title="Services Report" link={Routes.Services.path} />
                 {/* <NavItem title="B2C" link={Routes.DocsDownload.path} />
                 <NavItem title="STK  push" link={Routes.DocsQuickStart.path} />
-                <NavItem title="B2B Paybill" link={Routes.DocsLicense.path} /> */}
+                <NavItem title="B2B Paybill" link={Routes.DocsLicense.path} /> */} 
                 
-              </CollapsableNavItem>
+              {/* </CollapsableNavItem> */}
 
               <NavItem title="Transactions" icon={faHandHoldingUsd} link={Routes.Transactions.path} />
-
-              <CollapsableNavItem eventKey="Reports/" title="Reports" icon={faTable}>
-                <NavItem title="Transcation Reports" link={Routes.BootstrapTables.path} />
-              </CollapsableNavItem>
-
+              <NavItem title="Reports" link={Routes.Reports.path} icon={faTable} />
               
-
-
+              {/* <CollapsableNavItem eventKey="Reports/" title="Reports" icon={faTable}>
+                <NavItem title=" Reports" link={Routes.BootstrapTables.path} />
+              </CollapsableNavItem> */}
               <Dropdown.Divider className="my-3 border-indigo" />
 
              
