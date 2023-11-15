@@ -1,25 +1,67 @@
-import React from "react";
+import React, {useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faCog, faHome, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Form, Button, ButtonGroup, Breadcrumb, InputGroup, Dropdown } from '@themesberg/react-bootstrap';
+import { Col, Row, Form, Button, ButtonGroup, Breadcrumb, InputGroup, Dropdown, DropdownButton} from '@themesberg/react-bootstrap';
 
 import { TransactionsTable } from "../components/Tables";
+import { exportToCSV,exportToPDF } from "./components/Myfunctions";
 
 export default () => {
+
+  const [exporting, setExporting] = useState(false);
+
+  // Function to export data to CSV
+  const handleExportToCSV = () => {
+    setExporting(true);
+    exportToCSV('')
+      .then(() => setExporting(false))
+      .catch(error => {
+        console.error('Error exporting to CSV', error);
+        setExporting(false);
+      });
+  };
+
+
+  const renderDropdown =()=>{
+    return < DropdownButton />
+  }
+
+  // Function to export data to PDF
+  const handleExportToPDF = () => {
+    setExporting(true);
+    exportToPDF('')
+      .then(() => setExporting(false))
+      .catch(error => {
+        console.error('Error exporting to PDF', error);
+        setExporting(false);
+      });
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div className="d-block mb-4 mb-md-0">
-          <Breadcrumb className="d-none d-md-inline-block" listProps={{ className: "breadcrumb-dark breadcrumb-transparent" }}>
+          {/* <Breadcrumb className="d-none d-md-inline-block" listProps={{ className: "breadcrumb-dark breadcrumb-transparent" }}>
             <Breadcrumb.Item><FontAwesomeIcon icon={faHome} /></Breadcrumb.Item>
             <Breadcrumb.Item active>Transactions</Breadcrumb.Item>
-          </Breadcrumb>
+          </Breadcrumb> */}
           <h4>Transactions</h4>
         </div>
         <div className="btn-toolbar mb-2 mb-md-0">
+          
+        
           <ButtonGroup>
-            <Button variant="outline-primary" size="sm">Share</Button>
-            <Button variant="outline-primary" size="sm">Export</Button>
+          <DropdownButton
+                  id="export-dropdown"
+                  title="Export"
+                  variant="outline-primary"
+                  size="sm"
+                  disabled={exporting}
+                >
+                <Dropdown.Item onClick={handleExportToCSV}>Export to CSV</Dropdown.Item>
+                <Dropdown.Item onClick={handleExportToPDF}>Export to PDF</Dropdown.Item>
+        </DropdownButton>
+            <Button variant="outline-primary" size="sm">Share</Button>     
           </ButtonGroup>
         </div>
       </div>

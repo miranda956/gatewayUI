@@ -7,9 +7,13 @@ import { GeneralInfoForm, UserSearch } from "../components/Forms";
 
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
 import { ChannelsTable, CommandsTable, UsersTable, TransactionsTable } from "../components/Tables";
+import useItemClick from "../components/hooks/useItemClick";
 
 
 export default () => {
+
+  const {showForm,handleItemClick,closeForm}= useItemClick()
+
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -19,10 +23,10 @@ export default () => {
             <span>New</span>
           </Dropdown.Toggle>
           <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-2">
-            <Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemClick("Document")}>
               <FontAwesomeIcon icon={faFileAlt} className="me-2" /> Document
             </Dropdown.Item>
-            <Dropdown.Item>
+            <Dropdown.Item onClick={() => handleItemClick("Message")}>
               <FontAwesomeIcon icon={faCommentDots} className="me-2" /> Message
             </Dropdown.Item>
             <Dropdown.Item>
@@ -69,7 +73,7 @@ export default () => {
 
       <Row>
         <Col xs={12} xl={8}>
-        < UserSearch />
+      {showForm && < UserSearch onClose={closeForm}/>}
         </Col>
       </Row>
 

@@ -577,7 +577,7 @@ export const UsersTable = () => {
   );
 };
 
-export const StaffTable = () => {
+export const MerchantTable = () => {
   const allUsers = users.length;
 
   const [modal, setModal] = useState(false);
@@ -650,9 +650,6 @@ export const StaffTable = () => {
               <Dropdown.Item>
                 <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit Details
               </Dropdown.Item>
-              <Dropdown.Item onClick={openModal}>
-                <FontAwesomeIcon icon={faEdit} className="me-2" /> Assign Role
-              </Dropdown.Item>
 
               <Dropdown.Item>
                 <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" /> Send Mail
@@ -671,7 +668,7 @@ export const StaffTable = () => {
     <Card border="light" className="table-wrapper table-responsive shadow-sm">
       <Card.Body className="pt-0">
 
-      <h5 className="mb-4 mt-4">Staff</h5>
+      <h5 className="mb-4 mt-4">Merchants</h5>
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>       
@@ -789,10 +786,10 @@ export const ServicesTable = ({isAdmin}) => {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item>
-                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
+                <FontAwesomeIcon icon={faEye} className="me-2" /> Activate
               </Dropdown.Item>
               <Dropdown.Item>
-                <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
+                <FontAwesomeIcon icon={faEdit} className="me-2" /> Deactivate
               </Dropdown.Item>
               {/* <Dropdown.Item className="text-danger">
                 <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove

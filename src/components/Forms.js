@@ -10,8 +10,13 @@ import { Col, Row, Card, Form, Button, InputGroup } from '@themesberg/react-boot
 import "react-datetime/css/react-datetime.css";
 
 
-export const GeneralInfoForm = () => {
+export const GeneralInfoForm = ({onClose}) => {
   const [senderName, setSenderName] = useState("");
+
+
+  const handleSaveAll = () => {
+    onClose();
+  };
 
   return (
     <Card border="light" className="bg-white shadow-sm mb-4">
@@ -50,7 +55,7 @@ export const GeneralInfoForm = () => {
             <Col md={6} className="mb-3">
               <Form.Group id="shortcode">
                 <Form.Label>Short Code</Form.Label>
-                <Form.Control required type="email" placeholder="Enter the short code" />
+                <Form.Control required type="text" placeholder="Enter the short code" />
               </Form.Group>
             </Col>
             {/* <Col md={6} className="mb-3">
@@ -96,7 +101,7 @@ export const GeneralInfoForm = () => {
          
           {/* </Row> */}
           <div className="mt-3">
-            <Button variant="primary" type="submit">Save All</Button>
+            <Button variant="primary" type="submit" onClick={handleSaveAll}>Save All</Button>
           </div>
         </Form>
       </Card.Body>
@@ -106,13 +111,18 @@ export const GeneralInfoForm = () => {
 
 
 
-export const UserSearch = () => {
+export const UserSearch = ({onClose}) => {
   const [senderName, setSenderName] = useState("");
   const [selectedDate, setSelectedDate] =useState("")
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+  
+  const handleClose = () => {
+    onClose();
+  };
+
 
   return (
     <Card border="light" className="bg-white shadow-sm mb-4">
@@ -129,13 +139,13 @@ export const UserSearch = () => {
             <Col  md={4} className="mb-3">
               <Form.Group id="password">
                 <Form.Label>Phone</Form.Label>
-                <Form.Control required type="text" placeholder="Enter your password" />
+                <Form.Control required type="text" placeholder="Enter your phone number" />
               </Form.Group>
             </Col>
             <Col md={4} className="mb-3">
               <Form.Group id="password">
                 <Form.Label>Email</Form.Label>
-                <Form.Control required type="text" placeholder="Enter your password" />
+                <Form.Control required type="text" placeholder="Enter your email" />
               </Form.Group>
             </Col>
             <Col md={4}  className="mb-3">
@@ -159,8 +169,87 @@ export const UserSearch = () => {
               </Form.Group>
             </Col>
           </Row> 
+
+          <div className="mt-3">
+            <Button variant="primary" type="submit" onClick={handleClose}>Save All</Button>
+          </div>
         </Form>
       </Card.Body>
     </Card>
   );
 };
+
+export const CreateMerchant = ({onClose}) => {
+  const [senderName, setSenderName] = useState("");
+
+
+  const handleSaveAll = () => {
+    onClose();
+  };
+
+  return (
+    <Card border="light" className="bg-white shadow-sm mb-4">
+      <Card.Body>
+        <h5 className="mb-4">General information</h5>
+        <Form>
+          <Row>
+            <Col md={6} className="mb-3">
+              <Form.Group id="userName">
+                <Form.Label>User Name</Form.Label>
+                <Form.Control required type="text" placeholder="Enter your user name" />
+              </Form.Group>
+            </Col>
+
+            <Col md={6} className="mb-3">
+              <Form.Group id="email">
+                <Form.Label>Email</Form.Label>
+                <Form.Control required type="email" placeholder="Enter your email" />           
+              </Form.Group>
+            </Col>
+
+            <Col md={6} className="mb-3">
+              <Form.Group id="phone">
+                <Form.Label>Phone</Form.Label>
+                <Form.Control required type="text" placeholder="Enter your phone number" />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="align-items-center">
+            {/* <Col md={6} className="mb-3">
+              <Form.Group id="senderName">
+                <Form.Label>Sender Name</Form.Label>
+                <Form.Control required type="text" placeholder="Enter the sender Name" />           
+              </Form.Group>
+            </Col> */}
+            {/* <Col md={6} className="mb-3">
+              <Form.Group id="callbackUrl">
+                <Form.Label>Callback Url</Form.Label>
+                <Form.Control required type="text" placeholder="Enter the callback Url" />
+              </Form.Group>
+            </Col> */}
+          </Row>
+          <Row>
+            {/* <Col md={6} className="mb-3">
+              <Form.Group id="shortcode">
+                <Form.Label>Short Code</Form.Label>
+                <Form.Control required type="email" placeholder="Enter the short code" />
+              </Form.Group>
+            </Col> */}
+            {/* <Col md={6} className="mb-3">
+              <Form.Group id="phone">
+                <Form.Label>Phone</Form.Label>
+                <Form.Control required type="number" placeholder="+12-345 678 910" />
+              </Form.Group>
+            </Col> */}
+          </Row>
+          
+          <div className="mt-3">
+            <Button variant="primary" type="submit" onClick={handleSaveAll}>Save All</Button>
+          </div>
+        </Form>
+      </Card.Body>
+    </Card>
+  );
+};
+
+

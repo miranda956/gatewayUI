@@ -102,9 +102,7 @@ export default (props = {}) => {
               <NavItem title="Dashboard" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <NavItem title="User Management" link={Routes.Usermanagement.path} icon={faUsers} />
               <NavItem title="Merchants" link={Routes.Merchants.path} icon={faUsers} />
-              <CollapsableNavItem title ="Channels" icon={faBroadcastTower} link={Routes.Settings.path}>
-              <NavItem title="Channel" icon={faFolder} link={Routes.Settings.path} />
-              </CollapsableNavItem>
+              <NavItem title="Channels" link={Routes.Settings.path} icon={faBroadcastTower} />
               <NavItem title="Services" link={Routes.Services.path} icon={faBook} />
 
 
@@ -123,10 +121,7 @@ export default (props = {}) => {
                 <NavItem title=" Reports" link={Routes.BootstrapTables.path} />
               </CollapsableNavItem> */}
               <Dropdown.Divider className="my-3 border-indigo" />
-
-             
-             
-              <NavItem external title="Developer Docs" link="/" target="_blank"  />
+              {/* <NavItem external title="Developer Docs" link="/" target="_blank"  /> */}
             </Nav>
           </div>
         </SimpleBar>
