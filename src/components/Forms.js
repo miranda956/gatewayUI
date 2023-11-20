@@ -1,18 +1,21 @@
-
 import React, { useState } from "react";
 import moment from "moment-timezone";
 import Datetime from "react-datetime";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Card, Form, Button, InputGroup } from '@themesberg/react-bootstrap';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  Col,
+  Row,
+  Card,
+  Form,
+  Button,
+  InputGroup,
+} from "@themesberg/react-bootstrap";
 
 import "react-datetime/css/react-datetime.css";
 
-
-export const GeneralInfoForm = ({onClose}) => {
+export const GeneralInfoForm = ({ onClose }) => {
   const [senderName, setSenderName] = useState("");
-
 
   const handleSaveAll = () => {
     onClose();
@@ -27,13 +30,21 @@ export const GeneralInfoForm = ({onClose}) => {
             <Col md={6} className="mb-3">
               <Form.Group id="userName">
                 <Form.Label>User Name</Form.Label>
-                <Form.Control required type="text" placeholder="Enter your user name" />
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter your user name"
+                />
               </Form.Group>
             </Col>
             <Col md={6} className="mb-3">
               <Form.Group id="password">
                 <Form.Label>Password</Form.Label>
-                <Form.Control required type="text" placeholder="Enter your password" />
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter your password"
+                />
               </Form.Group>
             </Col>
           </Row>
@@ -41,13 +52,21 @@ export const GeneralInfoForm = ({onClose}) => {
             <Col md={6} className="mb-3">
               <Form.Group id="senderName">
                 <Form.Label>Sender Name</Form.Label>
-                <Form.Control required type="text" placeholder="Enter the sender Name" />           
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter the sender Name"
+                />
               </Form.Group>
             </Col>
             <Col md={6} className="mb-3">
               <Form.Group id="callbackUrl">
                 <Form.Label>Callback Url</Form.Label>
-                <Form.Control required type="text" placeholder="Enter the callback Url" />
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter the callback Url"
+                />
               </Form.Group>
             </Col>
           </Row>
@@ -55,7 +74,11 @@ export const GeneralInfoForm = ({onClose}) => {
             <Col md={6} className="mb-3">
               <Form.Group id="shortcode">
                 <Form.Label>Short Code</Form.Label>
-                <Form.Control required type="text" placeholder="Enter the short code" />
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter the short code"
+                />
               </Form.Group>
             </Col>
             {/* <Col md={6} className="mb-3">
@@ -101,7 +124,9 @@ export const GeneralInfoForm = ({onClose}) => {
          
           {/* </Row> */}
           <div className="mt-3">
-            <Button variant="primary" type="submit" onClick={handleSaveAll}>Save All</Button>
+            <Button variant="primary" type="submit" onClick={handleSaveAll}>
+              Save All
+            </Button>
           </div>
         </Form>
       </Card.Body>
@@ -109,46 +134,55 @@ export const GeneralInfoForm = ({onClose}) => {
   );
 };
 
-
-
-export const UserSearch = ({onClose}) => {
+export const UserSearch = ({ onClose }) => {
   const [senderName, setSenderName] = useState("");
-  const [selectedDate, setSelectedDate] =useState("")
+  const [selectedDate, setSelectedDate] = useState("");
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
-  
+
   const handleClose = () => {
     onClose();
   };
 
-
   return (
     <Card border="light" className="bg-white shadow-sm mb-4">
       <Card.Body>
-        <h5 className="mb-4">Search</h5>
+        <h5 className="mb-4">User Profile</h5>
         <Form>
           <Row>
-            <Col  md={4} className="mb-3">
+            <Col md={4} className="mb-3">
               <Form.Group id="userName">
                 <Form.Label>User Name</Form.Label>
-                <Form.Control required type="text" placeholder="Enter your user name" />
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter your user name"
+                />
               </Form.Group>
             </Col>
-            <Col  md={4} className="mb-3">
+            <Col md={4} className="mb-3">
               <Form.Group id="password">
                 <Form.Label>Phone</Form.Label>
-                <Form.Control required type="text" placeholder="Enter your phone number" />
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter your phone number"
+                />
               </Form.Group>
             </Col>
             <Col md={4} className="mb-3">
               <Form.Group id="password">
                 <Form.Label>Email</Form.Label>
-                <Form.Control required type="text" placeholder="Enter your email" />
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter your email"
+                />
               </Form.Group>
             </Col>
-            <Col md={4}  className="mb-3">
+            <Col md={4} className="mb-3">
               <Form.Group id="password">
                 <Form.Label>JOIN_DATE</Form.Label>
                 <Datetime
@@ -158,20 +192,22 @@ export const UserSearch = ({onClose}) => {
                 />
               </Form.Group>
             </Col>
-            <Col md={4}  className="mb-3">
+            <Col md={4} className="mb-3">
               <Form.Group className="mb-2">
-                  <Form.Label>Role</Form.Label>
-                  <Form.Select id="status" defaultValue="0">
-                  <option value="empty"></option>  
-                    <option value="AC">Manager</option>            
-                    <option value="WY">Admin</option>
-                  </Form.Select>
+                <Form.Label>Role</Form.Label>
+                <Form.Select id="status" defaultValue="0">
+                  <option value="empty"></option>
+                  <option value="AC">Manager</option>
+                  <option value="WY">Admin</option>
+                </Form.Select>
               </Form.Group>
             </Col>
-          </Row> 
+          </Row>
 
           <div className="mt-3">
-            <Button variant="primary" type="submit" onClick={handleClose}>Save All</Button>
+            <Button variant="primary" type="submit" onClick={handleClose}>
+              Save All
+            </Button>
           </div>
         </Form>
       </Card.Body>
@@ -179,9 +215,8 @@ export const UserSearch = ({onClose}) => {
   );
 };
 
-export const CreateMerchant = ({onClose}) => {
+export const CreateMerchant = ({ onClose }) => {
   const [senderName, setSenderName] = useState("");
-
 
   const handleSaveAll = () => {
     onClose();
@@ -190,27 +225,39 @@ export const CreateMerchant = ({onClose}) => {
   return (
     <Card border="light" className="bg-white shadow-sm mb-4">
       <Card.Body>
-        <h5 className="mb-4">General information</h5>
+        <h5 className="mb-4">Merchant Profile</h5>
         <Form>
           <Row>
             <Col md={6} className="mb-3">
               <Form.Group id="userName">
                 <Form.Label>User Name</Form.Label>
-                <Form.Control required type="text" placeholder="Enter your user name" />
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter your user name"
+                />
               </Form.Group>
             </Col>
 
             <Col md={6} className="mb-3">
               <Form.Group id="email">
                 <Form.Label>Email</Form.Label>
-                <Form.Control required type="email" placeholder="Enter your email" />           
+                <Form.Control
+                  required
+                  type="email"
+                  placeholder="Enter your email"
+                />
               </Form.Group>
             </Col>
 
             <Col md={6} className="mb-3">
               <Form.Group id="phone">
                 <Form.Label>Phone</Form.Label>
-                <Form.Control required type="text" placeholder="Enter your phone number" />
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Enter your phone number"
+                />
               </Form.Group>
             </Col>
           </Row>
@@ -242,14 +289,14 @@ export const CreateMerchant = ({onClose}) => {
               </Form.Group>
             </Col> */}
           </Row>
-          
+
           <div className="mt-3">
-            <Button variant="primary" type="submit" onClick={handleSaveAll}>Save All</Button>
+            <Button variant="primary" type="submit" onClick={handleSaveAll}>
+              Save All
+            </Button>
           </div>
         </Form>
       </Card.Body>
     </Card>
   );
 };
-
-

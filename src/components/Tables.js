@@ -1,11 +1,39 @@
-
-import React, {useState} from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp, faArrowDown, faArrowUp,faShare, faEdit,faEnvelopeOpen,faEllipsisH, faExternalLinkAlt, faEye, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Nav, Card, Image, Button,Form, Table, Dropdown,Modal, ProgressBar, Pagination, ButtonGroup } from '@themesberg/react-bootstrap';
-import { Link } from 'react-router-dom';
-
-
+import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleDown,
+  faAngleUp,
+  faArrowDown,
+  faArrowUp,
+  faShare,
+  faEdit,
+  faEnvelopeOpen,
+  faEllipsisH,
+  faExternalLinkAlt,
+  faEye,
+  faCheck,
+  faCross,
+  faTimes,
+  faTrashAlt,
+  faCut,
+  faAsterisk,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  Col,
+  Row,
+  Nav,
+  Card,
+  Image,
+  Button,
+  Form,
+  Table,
+  Dropdown,
+  Modal,
+  ProgressBar,
+  Pagination,
+  ButtonGroup,
+} from "@themesberg/react-bootstrap";
+import { Link } from "react-router-dom";
 
 import { Routes } from "../routes";
 import { pageVisits, pageTraffic, pageRanking } from "../data/tables";
@@ -13,18 +41,29 @@ import transactions from "../data/transactions";
 import channels from "../data/channels";
 import commands from "../data/commands";
 import users from "../data/users";
+import SendMail from "./Modals";
+
+import {
+  fetchEntities,
+  createEntity,
+  deleteEntity,
+  updateEntity,
+} from "./apis/apis";
 
 const ValueChange = ({ value, suffix }) => {
   const valueIcon = value < 0 ? faAngleDown : faAngleUp;
   const valueTxtColor = value < 0 ? "text-danger" : "text-success";
 
-  return (
-    value ? <span className={valueTxtColor}>
+  return value ? (
+    <span className={valueTxtColor}>
       <FontAwesomeIcon icon={valueIcon} />
       <span className="fw-bold ms-1">
-        {Math.abs(value)}{suffix}
+        {Math.abs(value)}
+        {suffix}
       </span>
-    </span> : "--"
+    </span>
+  ) : (
+    "--"
   );
 };
 
@@ -40,7 +79,10 @@ export const PageVisitsTable = () => {
         <td>{views}</td>
         <td>${returnValue}</td>
         <td>
-          <FontAwesomeIcon icon={bounceIcon} className={`${bounceTxtColor} me-3`} />
+          <FontAwesomeIcon
+            icon={bounceIcon}
+            className={`${bounceTxtColor} me-3`}
+          />
           {Math.abs(bounceRate)}%
         </td>
       </tr>
@@ -55,7 +97,9 @@ export const PageVisitsTable = () => {
             <h5>Page visits</h5>
           </Col>
           <Col className="text-end">
-            <Button variant="secondary" size="sm">See all</Button>
+            <Button variant="secondary" size="sm">
+              See all
+            </Button>
           </Col>
         </Row>
       </Card.Header>
@@ -69,7 +113,9 @@ export const PageVisitsTable = () => {
           </tr>
         </thead>
         <tbody>
-          {pageVisits.map(pv => <TableRow key={`page-visit-${pv.id}`} {...pv} />)}
+          {pageVisits.map((pv) => (
+            <TableRow key={`page-visit-${pv.id}`} {...pv} />
+          ))}
         </tbody>
       </Table>
     </Card>
@@ -78,15 +124,30 @@ export const PageVisitsTable = () => {
 
 export const PageTrafficTable = () => {
   const TableRow = (props) => {
-    const { id, source, sourceIcon, sourceIconColor, sourceType, category, rank, trafficShare, change } = props;
+    const {
+      id,
+      source,
+      sourceIcon,
+      sourceIconColor,
+      sourceType,
+      category,
+      rank,
+      trafficShare,
+      change,
+    } = props;
 
     return (
       <tr>
         <td>
-          <Card.Link href="#" className="text-primary fw-bold">{id}</Card.Link>
+          <Card.Link href="#" className="text-primary fw-bold">
+            {id}
+          </Card.Link>
         </td>
         <td className="fw-bold">
-          <FontAwesomeIcon icon={sourceIcon} className={`icon icon-xs text-${sourceIconColor} w-30`} />
+          <FontAwesomeIcon
+            icon={sourceIcon}
+            className={`icon icon-xs text-${sourceIconColor} w-30`}
+          />
           {source}
         </td>
         <td>{sourceType}</td>
@@ -98,7 +159,13 @@ export const PageTrafficTable = () => {
               <small className="fw-bold">{trafficShare}%</small>
             </Col>
             <Col xs={12} xl={10} className="px-0 px-xl-1">
-              <ProgressBar variant="primary" className="progress-lg mb-0" now={trafficShare} min={0} max={100} />
+              <ProgressBar
+                variant="primary"
+                className="progress-lg mb-0"
+                now={trafficShare}
+                min={0}
+                max={100}
+              />
             </Col>
           </Row>
         </td>
@@ -125,7 +192,9 @@ export const PageTrafficTable = () => {
             </tr>
           </thead>
           <tbody>
-            {pageTraffic.map(pt => <TableRow key={`page-traffic-${pt.id}`} {...pt} />)}
+            {pageTraffic.map((pt) => (
+              <TableRow key={`page-traffic-${pt.id}`} {...pt} />
+            ))}
           </tbody>
         </Table>
       </Card.Body>
@@ -135,31 +204,39 @@ export const PageTrafficTable = () => {
 
 export const RankingTable = () => {
   const TableRow = (props) => {
-    const { country, countryImage, overallRank, overallRankChange, travelRank, travelRankChange, widgetsRank, widgetsRankChange } = props;
+    const {
+      country,
+      countryImage,
+      overallRank,
+      overallRankChange,
+      travelRank,
+      travelRankChange,
+      widgetsRank,
+      widgetsRankChange,
+    } = props;
 
     return (
       <tr>
         <td className="border-0">
           <Card.Link href="#" className="d-flex align-items-center">
-            <Image src={countryImage} className="image-small rounded-circle me-2" />
-            <div><span className="h6">{country}</span></div>
+            <Image
+              src={countryImage}
+              className="image-small rounded-circle me-2"
+            />
+            <div>
+              <span className="h6">{country}</span>
+            </div>
           </Card.Link>
         </td>
-        <td className="fw-bold border-0">
-          {overallRank ? overallRank : "-"}
-        </td>
+        <td className="fw-bold border-0">{overallRank ? overallRank : "-"}</td>
         <td className="border-0">
           <ValueChange value={overallRankChange} />
         </td>
-        <td className="fw-bold border-0">
-          {travelRank ? travelRank : "-"}
-        </td>
+        <td className="fw-bold border-0">{travelRank ? travelRank : "-"}</td>
         <td className="border-0">
           <ValueChange value={travelRankChange} />
         </td>
-        <td className="fw-bold border-0">
-          {widgetsRank ? widgetsRank : "-"}
-        </td>
+        <td className="fw-bold border-0">{widgetsRank ? widgetsRank : "-"}</td>
         <td className="border-0">
           <ValueChange value={widgetsRankChange} />
         </td>
@@ -183,7 +260,9 @@ export const RankingTable = () => {
             </tr>
           </thead>
           <tbody>
-            {pageRanking.map(r => <TableRow key={`ranking-${r.id}`} {...r} />)}
+            {pageRanking.map((r) => (
+              <TableRow key={`ranking-${r.id}`} {...r} />
+            ))}
           </tbody>
         </Table>
       </Card.Body>
@@ -191,57 +270,61 @@ export const RankingTable = () => {
   );
 };
 
-export const TransactionsTable = ({isAdmin}) => {
+export const TransactionsTable = ({ isAdmin }) => {
   const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
-    const { transactionId, service, account,date,amount, status,merchantId } = props;
-    const statusVariant = status === "Paid" ? "success"
-      : status === "Due" ? "warning"
-        : status === "Canceled" ? "danger" : "primary";
+    const {
+      transactionId,
+      service,
+      account,
+      date,
+      amount,
+      status,
+      merchantId,
+    } = props;
+    const statusVariant =
+      status === "Paid"
+        ? "success"
+        : status === "Due"
+        ? "warning"
+        : status === "Canceled"
+        ? "danger"
+        : "primary";
 
     return (
       <tr>
         {isAdmin && (
           <td>
-            <span className="fw-normal">
-              {merchantId}
-            </span>
+            <span className="fw-normal">{merchantId}</span>
           </td>
         )}
         <td>
-          <span className="fw-normal">
-            {transactionId}
-          </span>
+          <span className="fw-normal">{transactionId}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            {service}
-          </span>
+          <span className="fw-normal">{service}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            {account}
-          </span>
+          <span className="fw-normal">{account}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            {date}
-          </span>
+          <span className="fw-normal">{date}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            ${parseFloat(amount).toFixed(2)}
-          </span>
+          <span className="fw-normal">${parseFloat(amount).toFixed(2)}</span>
         </td>
         <td>
-          <span className={`fw-normal text-${statusVariant}`}>
-            {status}
-          </span>
+          <span className={`fw-normal text-${statusVariant}`}>{status}</span>
         </td>
         <td>
           <Dropdown as={ButtonGroup}>
-            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
+            <Dropdown.Toggle
+              as={Button}
+              split
+              variant="link"
+              className="text-dark m-0 p-0"
+            >
               <span className="icon icon-sm">
                 <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
               </span>
@@ -266,12 +349,11 @@ export const TransactionsTable = ({isAdmin}) => {
   return (
     <Card border="light" className="table-wrapper table-responsive shadow-sm">
       <Card.Body className="pt-0">
-
-      <h5 className="mb-4 mt-4">Transactions Report</h5>
+        <h5 className="mb-4 mt-4">Transactions Report</h5>
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>
-              {isAdmin && (<th className="border-bottom">MERCHANT_ID</th>)}             
+              {isAdmin && <th className="border-bottom">MERCHANT_ID</th>}
               <th className="border-bottom">TRANSACTION_ID</th>
               <th className="border-bottom">SERVICE</th>
               <th className="border-bottom">ACCOUNT</th>
@@ -282,23 +364,21 @@ export const TransactionsTable = ({isAdmin}) => {
             </tr>
           </thead>
           <tbody>
-            {transactions.map(t => <TableRow key={`transaction-${t.Transaction_Id}`} {...t} />)}
+            {transactions.map((t) => (
+              <TableRow key={`transaction-${t.Transaction_Id}`} {...t} />
+            ))}
           </tbody>
         </Table>
         <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
           <Nav>
             <Pagination className="mb-2 mb-lg-0">
-              <Pagination.Prev>
-                Previous
-              </Pagination.Prev>
+              <Pagination.Prev>Previous</Pagination.Prev>
               <Pagination.Item active>1</Pagination.Item>
               <Pagination.Item>2</Pagination.Item>
               <Pagination.Item>3</Pagination.Item>
               <Pagination.Item>4</Pagination.Item>
               <Pagination.Item>5</Pagination.Item>
-              <Pagination.Next>
-                Next
-              </Pagination.Next>
+              <Pagination.Next>Next</Pagination.Next>
             </Pagination>
           </Nav>
           <small className="fw-bold">
@@ -316,23 +396,28 @@ export const CommandsTable = () => {
 
     return (
       <tr>
-        <td className="border-0" style={{ width: '5%' }}>
+        <td className="border-0" style={{ width: "5%" }}>
           <code>{name}</code>
         </td>
-        <td className="fw-bold border-0" style={{ width: '5%' }}>
+        <td className="fw-bold border-0" style={{ width: "5%" }}>
           <ul className="ps-0">
-            {usage.map(u => (
+            {usage.map((u) => (
               <ol key={u} className="ps-0">
                 <code>{u}</code>
               </ol>
             ))}
           </ul>
         </td>
-        <td className="border-0" style={{ width: '50%' }}>
+        <td className="border-0" style={{ width: "50%" }}>
           <pre className="m-0 p-0">{description}</pre>
         </td>
-        <td className="border-0" style={{ width: '40%' }}>
-          <pre><Card.Link href={link} target="_blank">Read More <FontAwesomeIcon icon={faExternalLinkAlt} className="ms-1" /></Card.Link></pre>
+        <td className="border-0" style={{ width: "40%" }}>
+          <pre>
+            <Card.Link href={link} target="_blank">
+              Read More{" "}
+              <FontAwesomeIcon icon={faExternalLinkAlt} className="ms-1" />
+            </Card.Link>
+          </pre>
         </td>
       </tr>
     );
@@ -341,17 +426,31 @@ export const CommandsTable = () => {
   return (
     <Card border="light" className="shadow-sm">
       <Card.Body className="p-0">
-        <Table responsive className="table-centered rounded" style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+        <Table
+          responsive
+          className="table-centered rounded"
+          style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}
+        >
           <thead className="thead-light">
             <tr>
-              <th className="border-0" style={{ width: '5%' }}>Name</th>
-              <th className="border-0" style={{ width: '5%' }}>Usage</th>
-              <th className="border-0" style={{ width: '50%' }}>Description</th>
-              <th className="border-0" style={{ width: '40%' }}>Extra</th>
+              <th className="border-0" style={{ width: "5%" }}>
+                Name
+              </th>
+              <th className="border-0" style={{ width: "5%" }}>
+                Usage
+              </th>
+              <th className="border-0" style={{ width: "50%" }}>
+                Description
+              </th>
+              <th className="border-0" style={{ width: "40%" }}>
+                Extra
+              </th>
             </tr>
           </thead>
           <tbody>
-            {commands.map(c => <TableRow key={`command-${c.id}`} {...c} />)}
+            {commands.map((c) => (
+              <TableRow key={`command-${c.id}`} {...c} />
+            ))}
           </tbody>
         </Table>
       </Card.Body>
@@ -363,42 +462,41 @@ export const ChannelsTable = () => {
   const totalChannels = channels.length;
 
   const TableRow = (props) => {
-    const {channelName,userName,callbackUrl,shortCode,status} = props;
-    const statusVariant = status === "Active" ? "success"
-      : status === "Dormant" ? "warning"
-        : status === "Inactive" ? "danger" : "primary";
-    
+    const { channelName, userName, callbackUrl, shortCode, status } = props;
+    const statusVariant =
+      status === "Active"
+        ? "success"
+        : status === "Dormant"
+        ? "warning"
+        : status === "Inactive"
+        ? "danger"
+        : "primary";
 
     return (
-      <tr>       
+      <tr>
         <td>
-          <span className="fw-normal">
-            {channelName}
-          </span>
+          <span className="fw-normal">{channelName}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            {userName}
-          </span>
+          <span className="fw-normal">{userName}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            {callbackUrl}
-          </span>
+          <span className="fw-normal">{callbackUrl}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            {shortCode}
-          </span>
-        </td>       
+          <span className="fw-normal">{shortCode}</span>
+        </td>
         <td>
-          <span className={`fw-normal text-${statusVariant}`}>
-            {status}
-          </span>
+          <span className={`fw-normal text-${statusVariant}`}>{status}</span>
         </td>
         <td>
           <Dropdown as={ButtonGroup}>
-            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
+            <Dropdown.Toggle
+              as={Button}
+              split
+              variant="link"
+              className="text-dark m-0 p-0"
+            >
               <span className="icon icon-sm">
                 <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
               </span>
@@ -420,11 +518,11 @@ export const ChannelsTable = () => {
   return (
     <Card border="light" className="table-wrapper table-responsive shadow-sm">
       <Card.Body className="pt-0">
-      <h5 className="mb-4 mt-4">Channels</h5>
+        <h5 className="mb-4 mt-4">Channels</h5>
 
         <Table hover className="user-table align-items-center">
           <thead>
-            <tr>         
+            <tr>
               <th className="border-bottom">CHANNEL_NAME</th>
               <th className="border-bottom">USER_NAME</th>
               <th className="border-bottom">CALLBACK_URL</th>
@@ -434,23 +532,21 @@ export const ChannelsTable = () => {
             </tr>
           </thead>
           <tbody>
-            {channels.map(channel => <TableRow key={`channel-${channel.channelId}`} {...channel} />)}
+            {channels.map((channel) => (
+              <TableRow key={`channel-${channel.channelId}`} {...channel} />
+            ))}
           </tbody>
         </Table>
         <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
           <Nav>
             <Pagination className="mb-2 mb-lg-0">
-              <Pagination.Prev>
-                Previous
-              </Pagination.Prev>
+              <Pagination.Prev>Previous</Pagination.Prev>
               <Pagination.Item active>1</Pagination.Item>
               <Pagination.Item>2</Pagination.Item>
               <Pagination.Item>3</Pagination.Item>
               <Pagination.Item>4</Pagination.Item>
               <Pagination.Item>5</Pagination.Item>
-              <Pagination.Next>
-                Next
-              </Pagination.Next>
+              <Pagination.Next>Next</Pagination.Next>
             </Pagination>
           </Nav>
           <small className="fw-bold">
@@ -462,324 +558,490 @@ export const ChannelsTable = () => {
   );
 };
 
-
-
 export const UsersTable = () => {
   const allUsers = users.length;
 
-  const TableRow = (props) => {
-    const {name,phone,email,joinDate,status,lastLogin} = props;
-    const statusVariant = status === "Active" ? "success"
-      : status === "Dormant" ? "warning"
-        : status === "Inactive" ? "danger" : "primary";
-    
+  const [showMailModal, setShowMailModal] = useState(false);
+  const [selectedEmail, setSelectedEmail] = useState("");
+  const [usersData, setUsers] = useState(users);
 
+  const handleSendMailClick = (email) => {
+    setShowMailModal(true);
+    setSelectedEmail(email);
+  };
+
+  const TableRow = (props) => {
+    const { id, name, phone, email, joinDate, status, lastLogin } = props;
+
+    const statusVariant =
+      status === "Active"
+        ? "success"
+        : status === "Dormant"
+        ? "warning"
+        : status === "Inactive"
+        ? "danger"
+        : "primary";
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedData, setEditedData] = useState({});
+
+    const handleEditClick = () => {
+      setEditedData({ id, name, phone, email, status, lastLogin });
+      setIsEditing(true);
+    };
+
+    const handleSaveClick = () => {
+      const updatedUsers = users.map((user) => {
+        if (user.id === id) {
+          return { ...user, ...editedData };
+        }
+        return user;
+      });
+
+      setUsers(updatedUsers);
+
+      setIsEditing(false);
+    };
+
+    const handleCancelClick = () => {
+      setIsEditing(false);
+    };
     return (
-      <tr>       
+      <tr>
         <td>
-          <span className="fw-normal">
-            {name}
-          </span>
+          {isEditing ? (
+            <input
+              type="text"
+              value={editedData.name}
+              onChange={(e) =>
+                setEditedData({ ...editedData, name: e.target.value })
+              }
+            />
+          ) : (
+            <span className="fw-normal">{name}</span>
+          )}
         </td>
         <td>
-          <span className="fw-normal">
-            {phone}
-          </span>
+          {isEditing ? (
+            <input
+              type="text"
+              value={editedData.phone}
+              onChange={(e) =>
+                setEditedData({ ...editedData, phone: e.target.value })
+              }
+            />
+          ) : (
+            <span className="fw-normal">{phone}</span>
+          )}
         </td>
         <td>
-          <span className="fw-normal">
-            {email}
-          </span>
+          {isEditing ? (
+            <input
+              type="text"
+              value={editedData.email}
+              onChange={(e) =>
+                setEditedData({ ...editedData, email: e.target.value })
+              }
+            />
+          ) : (
+            <span className="fw-normal">{email}</span>
+          )}
         </td>
         <td>
-          <span className="fw-normal">
-            {joinDate}
-          </span>
-        </td>       
-        <td>
-          <span className={`fw-normal text-${statusVariant}`}>
-            {status}
-          </span>
+          <span className="fw-normal">{joinDate}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            {lastLogin}
-          </span>
+          <span className={`fw-normal text-${statusVariant}`}>{status}</span>
         </td>
-        
         <td>
-          <Dropdown as={ButtonGroup}>
-            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
-              <span className="icon icon-sm">
-                <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
-              </span>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit Details
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" /> Send Mail
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <span className="fw-normal">{lastLogin}</span>
+        </td>
+
+        <td>
+          {isEditing ? (
+            <>
+              <FontAwesomeIcon
+                icon={faCheck}
+                className="me-2"
+                onClick={handleSaveClick}
+              />
+              <FontAwesomeIcon
+                icon={faAsterisk}
+                className="me-2"
+                onClick={handleCancelClick}
+              />
+            </>
+          ) : (
+            <Dropdown as={ButtonGroup}>
+              <Dropdown.Toggle
+                as={Button}
+                split
+                variant="link"
+                className="text-dark m-0 p-0"
+              >
+                <span className="icon icon-sm">
+                  <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
+                </span>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={handleEditClick}>
+                  <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
+                  Details
+                </Dropdown.Item>
+
+                <Dropdown.Item onClick={() => handleSendMailClick(email)}>
+                  <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" />{" "}
+                  Send Mail
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
         </td>
       </tr>
     );
   };
 
   return (
-    <Card border="light" className="table-wrapper table-responsive shadow-sm">
-      <Card.Body className="pt-0">
+    <>
+      <Card border="light" className="table-wrapper table-responsive shadow-sm">
+        <Card.Body className="pt-0">
+          <h5 className="mb-4 mt-4">Users list</h5>
+          <Table hover className="user-table align-items-center">
+            <thead>
+              <tr>
+                <th className="border-bottom">NAME</th>
+                <th className="border-bottom">PHONE</th>
+                <th className="border-bottom">EMAIL</th>
+                <th className="border-bottom">JOIN_DATE</th>
+                <th className="border-bottom">STATUS</th>
+                <th className="border-bottom">LAST_LOGIN</th>
+                <th className="border-bottom">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usersData.map((user) => (
+                <TableRow key={`user-${user.id}`} {...user} />
+              ))}
+            </tbody>
+          </Table>
+          <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+            <Nav>
+              <Pagination className="mb-2 mb-lg-0">
+                <Pagination.Prev>Previous</Pagination.Prev>
+                <Pagination.Item active>1</Pagination.Item>
+                <Pagination.Item>2</Pagination.Item>
+                <Pagination.Item>3</Pagination.Item>
+                <Pagination.Item>4</Pagination.Item>
+                <Pagination.Item>5</Pagination.Item>
+                <Pagination.Next>Next</Pagination.Next>
+              </Pagination>
+            </Nav>
+            <small className="fw-bold">
+              Showing <b>{allUsers}</b> out of <b>25</b> entries
+            </small>
+          </Card.Footer>
+        </Card.Body>
+      </Card>
 
-      <h5 className="mb-4 mt-4">Users list</h5>
-        <Table hover className="user-table align-items-center">
-          <thead>
-            <tr>       
-              <th className="border-bottom">NAME</th>
-              <th className="border-bottom">PHONE</th>
-              <th className="border-bottom">EMAIL</th>
-              <th className="border-bottom">JOIN_DATE</th>
-              <th className="border-bottom">STATUS</th>
-              <th className="border-bottom">LAST_LOGIN</th>
-              <th className="border-bottom">ACTION</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(user => <TableRow key={`user-${user.id}`} {...user} />)}
-          </tbody>
-        </Table>
-        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-          <Nav>
-            <Pagination className="mb-2 mb-lg-0">
-              <Pagination.Prev>
-                Previous
-              </Pagination.Prev>
-              <Pagination.Item active>1</Pagination.Item>
-              <Pagination.Item>2</Pagination.Item>
-              <Pagination.Item>3</Pagination.Item>
-              <Pagination.Item>4</Pagination.Item>
-              <Pagination.Item>5</Pagination.Item>
-              <Pagination.Next>
-                Next
-              </Pagination.Next>
-            </Pagination>
-          </Nav>
-          <small className="fw-bold">
-            Showing <b>{allUsers}</b> out of <b>25</b> entries
-          </small>
-        </Card.Footer>
-      </Card.Body>
-    </Card>
+      {/* Send Mail Modal */}
+      <SendMail
+        show={showMailModal}
+        onClose={() => setShowMailModal(false)}
+        onSend={() => {
+          setShowMailModal(false);
+        }}
+        email={selectedEmail}
+      />
+    </>
   );
 };
 
 export const MerchantTable = () => {
   const allUsers = users.length;
 
-  const [modal, setModal] = useState(false);
-  const[selectedRole, setSelectedRole]= useState('')
+  const [showMailModal, setShowMailModal] = useState(false);
+  const [selectedEmail, setSelectedEmail] = useState("");
 
-  const openModal = () => {
-    setModal(true);
+  const [merchants, setMerchants] = useState(users);
+
+  const handleSendMailClick = (email) => {
+    setShowMailModal(true);
+    setSelectedEmail(email);
   };
 
-  const closeModal = () => {
-    setModal(false);
+  useEffect(() => {
+    // Fetch merchants when the component mounts
+    fetchEntityData("merchants");
+  }, []);
+
+  const fetchEntityData = async (entityType) => {
+    try {
+      const data = await fetchEntities(entityType);
+      setMerchants(data);
+    } catch (error) {
+      console.error(`Error fetching ${entityType}:`, error);
+    }
   };
 
-  const handleRoleSelection =(e)=>{
-      setSelectedRole(e.target.value)
-  }
+  const handleCreateEntity = async (entityType, newData) => {
+    try {
+      const createdEntity = await createEntity(entityType, newData);
+      setMerchants([...merchants, createdEntity]);
+    } catch (error) {
+      console.error(`Error creating ${entityType}:`, error);
+    }
+  };
 
+  const handleUpdateEntity = async (entityType, entityId, updatedData) => {
+    try {
+      await updateEntity(entityType, entityId, updatedData);
+      const updatedEntities = merchants.map((entity) =>
+        entity.id === entityId ? { ...entity, ...updatedData } : entity
+      );
+      setMerchants(updatedEntities);
+    } catch (error) {
+      console.error(`Error updating ${entityType}:`, error);
+    }
+  };
+
+  const handleDeleteEntity = async (entityType, entityId) => {
+    try {
+      await deleteEntity(entityType, entityId);
+      const revisedMerchants = merchants.filter(
+        (entity) => entity.id !== entityId
+      );
+      setMerchants(revisedMerchants);
+    } catch (error) {
+      console.error(`Error deleting ${entityType}:`, error);
+    }
+  };
 
   const TableRow = (props) => {
-    const {name,phone,email,status,lastLogin,id} = props;
-    const statusVariant = status === "Active" ? "success"
-      : status === "Dormant" ? "warning"
-        : status === "Inactive" ? "danger" : "primary";
-    
+    const { name, phone, email, status, lastLogin, id } = props;
+
+    const statusVariant =
+      status === "Active"
+        ? "success"
+        : status === "Dormant"
+        ? "warning"
+        : status === "Inactive"
+        ? "danger"
+        : "primary";
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedData, setEditedData] = useState({});
+
+    const handleEditClick = () => {
+      setEditedData({ id, name, phone, email, status, lastLogin });
+      setIsEditing(true);
+    };
+
+    const handleSaveClick = () => {
+      const updatedUsers = users.map((user) => {
+        if (user.id === id) {
+          return { ...user, ...editedData };
+        }
+        return user;
+      });
+
+      setMerchants(updatedUsers);
+
+      setIsEditing(false);
+    };
+
+    const handleCancelClick = () => {
+      setIsEditing(false);
+    };
 
     return (
-      <tr>   
+      <tr>
         <td>
-          <span className="fw-normal">
-            {id}
-          </span>
-        </td>   
-        <td>
-          <span className="fw-normal">
-            {name}
-          </span>
+          <span className="fw-normal">{id}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            {phone}
-          </span>
+          {isEditing ? (
+            <input
+              type="text"
+              value={editedData.name}
+              onChange={(e) =>
+                setEditedData({ ...editedData, name: e.target.value })
+              }
+            />
+          ) : (
+            <span className="fw-normal">{name}</span>
+          )}
         </td>
         <td>
-          <span className="fw-normal">
-            {email}
-          </span>
-        </td>     
-        <td>
-          <span className={`fw-normal text-${statusVariant}`}>
-            {status}
-          </span>
+          {isEditing ? (
+            <input
+              type="text"
+              value={editedData.phone}
+              onChange={(e) =>
+                setEditedData({ ...editedData, phone: e.target.value })
+              }
+            />
+          ) : (
+            <span className="fw-normal">{phone}</span>
+          )}
         </td>
         <td>
-          <span className="fw-normal">
-            {lastLogin}
-          </span>
+          {isEditing ? (
+            <input
+              type="text"
+              value={editedData.email}
+              onChange={(e) =>
+                setEditedData({ ...editedData, email: e.target.value })
+              }
+            />
+          ) : (
+            <span className="fw-normal">{email}</span>
+          )}
         </td>
-        
         <td>
-          <Dropdown as={ButtonGroup}>
-            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
-              <span className="icon icon-sm">
-                <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
-              </span>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faEye} className="me-2" /> View Details
-              </Dropdown.Item>
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit Details
-              </Dropdown.Item>
+          <span className={`fw-normal text-${statusVariant}`}>{status}</span>
+        </td>
+        <td>
+          <span className="fw-normal">{lastLogin}</span>
+        </td>
 
-              <Dropdown.Item>
-                <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" /> Send Mail
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+        <td>
+          {isEditing ? (
+            <>
+              <FontAwesomeIcon
+                icon={faCheck}
+                className="me-2"
+                onClick={handleSaveClick}
+              />
+              <FontAwesomeIcon
+                icon={faAsterisk}
+                className="me-2"
+                onClick={handleCancelClick}
+              />
+            </>
+          ) : (
+            <Dropdown as={ButtonGroup}>
+              <Dropdown.Toggle
+                as={Button}
+                split
+                variant="link"
+                className="text-dark m-0 p-0"
+              >
+                <span className="icon icon-sm">
+                  <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
+                </span>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={handleEditClick}>
+                  <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
+                  Details
+                </Dropdown.Item>
+
+                <Dropdown.Item onClick={() => handleSendMailClick(email)}>
+                  <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" />{" "}
+                  Send Mail
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
         </td>
       </tr>
     );
   };
 
   return (
-
     <>
+      <Card border="light" className="table-wrapper table-responsive shadow-sm">
+        <Card.Body className="pt-0">
+          <h5 className="mb-4 mt-4">Merchants</h5>
+          <Table hover className="user-table align-items-center">
+            <thead>
+              <tr>
+                <th className="border-bottom">MERCHANT_ID</th>
+                <th className="border-bottom">NAME</th>
+                <th className="border-bottom">PHONE</th>
+                <th className="border-bottom">EMAIL</th>
+                <th className="border-bottom">STATUS</th>
+                <th className="border-bottom">LAST_LOGIN</th>
+                <th className="border-bottom">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              {merchants.map((user) => (
+                <TableRow key={`user-${user.id}`} {...user} />
+              ))}
+            </tbody>
+          </Table>
+          <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
+            <Nav>
+              <Pagination className="mb-2 mb-lg-0">
+                <Pagination.Prev>Previous</Pagination.Prev>
+                <Pagination.Item active>1</Pagination.Item>
+                <Pagination.Item>2</Pagination.Item>
+                <Pagination.Item>3</Pagination.Item>
+                <Pagination.Item>4</Pagination.Item>
+                <Pagination.Item>5</Pagination.Item>
+                <Pagination.Next>Next</Pagination.Next>
+              </Pagination>
+            </Nav>
+            <small className="fw-bold">
+              Showing <b>{allUsers}</b> out of <b>25</b> entries
+            </small>
+          </Card.Footer>
+        </Card.Body>
+      </Card>
 
-    <Card border="light" className="table-wrapper table-responsive shadow-sm">
-      <Card.Body className="pt-0">
-
-      <h5 className="mb-4 mt-4">Merchants</h5>
-        <Table hover className="user-table align-items-center">
-          <thead>
-            <tr>       
-              <th className="border-bottom">MERCHANT_ID</th>
-              <th className="border-bottom">NAME</th>
-              <th className="border-bottom">PHONE</th>
-              <th className="border-bottom">EMAIL</th>
-              <th className="border-bottom">STATUS</th>
-              <th className="border-bottom">LAST_LOGIN</th>
-              <th className="border-bottom">ACTION</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(user => <TableRow key={`user-${user.id}`} {...user} />)}
-          </tbody>
-        </Table>
-        <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
-          <Nav>
-            <Pagination className="mb-2 mb-lg-0">
-              <Pagination.Prev>
-                Previous
-              </Pagination.Prev>
-              <Pagination.Item active>1</Pagination.Item>
-              <Pagination.Item>2</Pagination.Item>
-              <Pagination.Item>3</Pagination.Item>
-              <Pagination.Item>4</Pagination.Item>
-              <Pagination.Item>5</Pagination.Item>
-              <Pagination.Next>
-                Next
-              </Pagination.Next>
-            </Pagination>
-          </Nav>
-          <small className="fw-bold">
-            Showing <b>{allUsers}</b> out of <b>25</b> entries
-          </small>
-        </Card.Footer>
-      </Card.Body>
-    </Card>
-
-    <Modal show={modal} onHide={closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Assign Role</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <Form.Group className="mb-3">
-            <Form.Label>Select Role</Form.Label>
-            <Form.Select value={selectedRole} onChange={handleRoleSelection}>
-              <option value="Merchant">Merchant</option>
-              <option value="Client">Client</option>
-            </Form.Select>
-          </Form.Group>       
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={closeModal}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={closeModal}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    
-    
+      {/* Send Mail Modal */}
+      <SendMail
+        show={showMailModal}
+        onClose={() => setShowMailModal(false)}
+        onSend={() => {
+          setShowMailModal(false);
+        }}
+        email={selectedEmail}
+      />
     </>
-
   );
 };
 
-
-
-
-export const ServicesTable = ({isAdmin}) => {
+export const ServicesTable = ({ isAdmin }) => {
   const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
-    const { transactionId, service, account,status,merchantId } = props;
-    const statusVariant = status === "Paid" ? "success"
-      : status === "Due" ? "warning"
-        : status === "Canceled" ? "danger" : "primary";
+    const { transactionId, service, account, status, merchantId } = props;
+    const statusVariant =
+      status === "Paid"
+        ? "success"
+        : status === "Due"
+        ? "warning"
+        : status === "Canceled"
+        ? "danger"
+        : "primary";
 
     return (
       <tr>
-          <td>
-            <span className="fw-normal">
-              {merchantId}
-            </span>
-          </td>
         <td>
-          <span className="fw-normal">
-            {transactionId}
-          </span>
+          <span className="fw-normal">{merchantId}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            {service}
-          </span>
+          <span className="fw-normal">{transactionId}</span>
         </td>
         <td>
-          <span className="fw-normal">
-            {account}
-          </span>
+          <span className="fw-normal">{service}</span>
         </td>
-        
         <td>
-          <span className={`fw-normal text-${statusVariant}`}>
-            {status}
-          </span>
+          <span className="fw-normal">{account}</span>
+        </td>
+
+        <td>
+          <span className={`fw-normal text-${statusVariant}`}>{status}</span>
         </td>
         <td>
           <Dropdown as={ButtonGroup}>
-            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
+            <Dropdown.Toggle
+              as={Button}
+              split
+              variant="link"
+              className="text-dark m-0 p-0"
+            >
               <span className="icon icon-sm">
                 <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
               </span>
@@ -804,12 +1066,11 @@ export const ServicesTable = ({isAdmin}) => {
   return (
     <Card border="light" className="table-wrapper table-responsive shadow-sm">
       <Card.Body className="pt-0">
-
-      <h5 className="mb-4 mt-4">Services Reports</h5>
+        <h5 className="mb-4 mt-4">Services Report</h5>
         <Table hover className="user-table align-items-center">
           <thead>
             <tr>
-              <th className="border-bottom">MERCHANT_ID</th>           
+              <th className="border-bottom">MERCHANT_ID</th>
               <th className="border-bottom">SERVICE_ID</th>
               <th className="border-bottom">DESCRIPTION</th>
               <th className="border-bottom">DURATION</th>
@@ -818,23 +1079,21 @@ export const ServicesTable = ({isAdmin}) => {
             </tr>
           </thead>
           <tbody>
-            {transactions.map(t => <TableRow key={`transaction-${t.Transaction_Id}`} {...t} />)}
+            {transactions.map((t) => (
+              <TableRow key={`transaction-${t.Transaction_Id}`} {...t} />
+            ))}
           </tbody>
         </Table>
         <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
           <Nav>
             <Pagination className="mb-2 mb-lg-0">
-              <Pagination.Prev>
-                Previous
-              </Pagination.Prev>
+              <Pagination.Prev>Previous</Pagination.Prev>
               <Pagination.Item active>1</Pagination.Item>
               <Pagination.Item>2</Pagination.Item>
               <Pagination.Item>3</Pagination.Item>
               <Pagination.Item>4</Pagination.Item>
               <Pagination.Item>5</Pagination.Item>
-              <Pagination.Next>
-                Next
-              </Pagination.Next>
+              <Pagination.Next>Next</Pagination.Next>
             </Pagination>
           </Nav>
           <small className="fw-bold">
