@@ -13,12 +13,7 @@ import {
   faRocket,
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  Breadcrumb,
-  Button,
-  ButtonGroup,
-  Dropdown,
-} from "@themesberg/react-bootstrap";
+import { Breadcrumb, Button, ButtonGroup, Dropdown, DropdownButton } from "@themesberg/react-bootstrap";
 import { ServicesTable, TransactionsTable, UsersTable } from "../components/Tables";
 
 export default () => {
@@ -42,7 +37,7 @@ export default () => {
         return (
           <>
             <div className="mt-4">
-              <TransactionsTable isAdmin={true}/>
+              <TransactionsTable isAdmin={true} />
             </div>
             <div className="mt-4">
               <ServicesTable />
@@ -61,17 +56,18 @@ export default () => {
     <>
       <div className="d-xl-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div className="d-block mb-4 mb-xl-0">
-          
           <h4>Reports</h4>
         </div>
 
         <div className="d-flex">
           <ButtonGroup>
+            <DropdownButton as={ButtonGroup} id="export-dropdown" title="Export" variant="outline-primary" size="sm">
+              <Dropdown.Item>Export to Pdf</Dropdown.Item>
+              <Dropdown.Divider></Dropdown.Divider>
+              <Dropdown.Item>Export to Csv</Dropdown.Item>
+            </DropdownButton>
             <Button variant="outline-primary" size="sm">
               Share
-            </Button>
-            <Button variant="outline-primary" size="sm">
-              Export
             </Button>
           </ButtonGroup>
         </div>
@@ -86,27 +82,19 @@ export default () => {
             </span>
           </Dropdown.Toggle>
           <Dropdown.Menu className="dashboard-dropdown dropdown-menu-left mt-1">
-            <Dropdown.Item
-              onClick={() => handleOptionChange("Transactions", "Transaction Reports")}
-            >
+            <Dropdown.Item onClick={() => handleOptionChange("Transactions", "Transaction Reports")}>
               <FontAwesomeIcon icon={faBoxOpen} className="me-2" /> Transactions Reports
             </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() => handleOptionChange("Users", "Users Reports")}
-            >
+            <Dropdown.Item onClick={() => handleOptionChange("Users", "Users Reports")}>
               <FontAwesomeIcon icon={faStore} className="me-2" /> Users Reports
             </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() => handleOptionChange("Services", "Services Reports")}
-            >
+            <Dropdown.Item onClick={() => handleOptionChange("Services", "Services Reports")}>
               <FontAwesomeIcon icon={faCartArrowDown} className="me-2" /> Services Reports
             </Dropdown.Item>
 
             <Dropdown.Divider />
 
-            <Dropdown.Item
-              onClick={() => handleOptionChange("AllReports", "All Reports")}
-            >
+            <Dropdown.Item onClick={() => handleOptionChange("AllReports", "All Reports")}>
               <FontAwesomeIcon icon={faRocket} className="text-success me-2" /> All Reports
             </Dropdown.Item>
           </Dropdown.Menu>

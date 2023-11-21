@@ -1,40 +1,15 @@
-import React, {useState} from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faCog, faHome, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Col, Row, Form, Button, ButtonGroup, Breadcrumb, InputGroup, Dropdown, DropdownButton} from '@themesberg/react-bootstrap';
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faCog, faHome, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { Col, Row, Form, Button, ButtonGroup, Breadcrumb, InputGroup, Dropdown, DropdownButton } from "@themesberg/react-bootstrap";
 
 import { TransactionsTable } from "../components/Tables";
-import { exportToCSV,exportToPDF } from "./components/Myfunctions";
 
 export default () => {
-
   const [exporting, setExporting] = useState(false);
 
-  // Function to export data to CSV
-  const handleExportToCSV = () => {
-    setExporting(true);
-    exportToCSV('')
-      .then(() => setExporting(false))
-      .catch(error => {
-        console.error('Error exporting to CSV', error);
-        setExporting(false);
-      });
-  };
-
-
-  const renderDropdown =()=>{
-    return < DropdownButton />
-  }
-
-  // Function to export data to PDF
-  const handleExportToPDF = () => {
-    setExporting(true);
-    exportToPDF('')
-      .then(() => setExporting(false))
-      .catch(error => {
-        console.error('Error exporting to PDF', error);
-        setExporting(false);
-      });
+  const renderDropdown = () => {
+    return <DropdownButton />;
   };
 
   return (
@@ -48,26 +23,21 @@ export default () => {
           <h4>Transactions</h4>
         </div>
         <div className="btn-toolbar mb-2 mb-md-0">
-          
-        
           <ButtonGroup>
-          <DropdownButton
-                  id="export-dropdown"
-                  title="Export"
-                  variant="outline-primary"
-                  size="sm"
-                  disabled={exporting}
-                >
-                <Dropdown.Item onClick={handleExportToCSV}>Export to CSV</Dropdown.Item>
-                <Dropdown.Item onClick={handleExportToPDF}>Export to PDF</Dropdown.Item>
-        </DropdownButton>
-            <Button variant="outline-primary" size="sm">Share</Button>     
+            <DropdownButton as={ButtonGroup} id="export-dropdown" title="Export" variant="outline-primary" size="sm" disabled={exporting}>
+              <Dropdown.Item>Export to Pdf</Dropdown.Item>
+              <Dropdown.Divider></Dropdown.Divider>
+              <Dropdown.Item>Export to Csv</Dropdown.Item>
+            </DropdownButton>
+            <Button variant="outline-primary" size="sm">
+              Share
+            </Button>
           </ButtonGroup>
         </div>
       </div>
 
       <div className="table-settings mb-4">
-        <Row className="justify-content-between align-items-center">
+        {/* <Row className="justify-content-between align-items-center">
           <Col xs={8} md={6} lg={3} xl={4}>
             <InputGroup>
               <InputGroup.Text>
@@ -86,17 +56,20 @@ export default () => {
               <Dropdown.Menu className="dropdown-menu-xs dropdown-menu-right">
                 <Dropdown.Item className="fw-bold text-dark">Show</Dropdown.Item>
                 <Dropdown.Item className="d-flex fw-bold">
-                  10 <span className="icon icon-small ms-auto"><FontAwesomeIcon icon={faCheck} /></span>
+                  10{" "}
+                  <span className="icon icon-small ms-auto">
+                    <FontAwesomeIcon icon={faCheck} />
+                  </span>
                 </Dropdown.Item>
                 <Dropdown.Item className="fw-bold">20</Dropdown.Item>
                 <Dropdown.Item className="fw-bold">30</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Col>
-        </Row>
+        </Row> */}
       </div>
 
-      <TransactionsTable isAdmin={true}/>
+      <TransactionsTable isAdmin={true} />
     </>
   );
 };

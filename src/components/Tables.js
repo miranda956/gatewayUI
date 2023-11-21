@@ -18,21 +18,7 @@ import {
   faCut,
   faAsterisk,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  Col,
-  Row,
-  Nav,
-  Card,
-  Image,
-  Button,
-  Form,
-  Table,
-  Dropdown,
-  Modal,
-  ProgressBar,
-  Pagination,
-  ButtonGroup,
-} from "@themesberg/react-bootstrap";
+import { Col, Row, Nav, Card, Image, Button, Form, Table, Dropdown, Modal, ProgressBar, Pagination, ButtonGroup } from "@themesberg/react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { Routes } from "../routes";
@@ -43,12 +29,7 @@ import commands from "../data/commands";
 import users from "../data/users";
 import SendMail from "./Modals";
 
-import {
-  fetchEntities,
-  createEntity,
-  deleteEntity,
-  updateEntity,
-} from "./apis/apis";
+import { fetchEntities, createEntity, deleteEntity, updateEntity } from "./apis/apis";
 
 const ValueChange = ({ value, suffix }) => {
   const valueIcon = value < 0 ? faAngleDown : faAngleUp;
@@ -79,10 +60,7 @@ export const PageVisitsTable = () => {
         <td>{views}</td>
         <td>${returnValue}</td>
         <td>
-          <FontAwesomeIcon
-            icon={bounceIcon}
-            className={`${bounceTxtColor} me-3`}
-          />
+          <FontAwesomeIcon icon={bounceIcon} className={`${bounceTxtColor} me-3`} />
           {Math.abs(bounceRate)}%
         </td>
       </tr>
@@ -124,17 +102,7 @@ export const PageVisitsTable = () => {
 
 export const PageTrafficTable = () => {
   const TableRow = (props) => {
-    const {
-      id,
-      source,
-      sourceIcon,
-      sourceIconColor,
-      sourceType,
-      category,
-      rank,
-      trafficShare,
-      change,
-    } = props;
+    const { id, source, sourceIcon, sourceIconColor, sourceType, category, rank, trafficShare, change } = props;
 
     return (
       <tr>
@@ -144,10 +112,7 @@ export const PageTrafficTable = () => {
           </Card.Link>
         </td>
         <td className="fw-bold">
-          <FontAwesomeIcon
-            icon={sourceIcon}
-            className={`icon icon-xs text-${sourceIconColor} w-30`}
-          />
+          <FontAwesomeIcon icon={sourceIcon} className={`icon icon-xs text-${sourceIconColor} w-30`} />
           {source}
         </td>
         <td>{sourceType}</td>
@@ -159,13 +124,7 @@ export const PageTrafficTable = () => {
               <small className="fw-bold">{trafficShare}%</small>
             </Col>
             <Col xs={12} xl={10} className="px-0 px-xl-1">
-              <ProgressBar
-                variant="primary"
-                className="progress-lg mb-0"
-                now={trafficShare}
-                min={0}
-                max={100}
-              />
+              <ProgressBar variant="primary" className="progress-lg mb-0" now={trafficShare} min={0} max={100} />
             </Col>
           </Row>
         </td>
@@ -204,25 +163,13 @@ export const PageTrafficTable = () => {
 
 export const RankingTable = () => {
   const TableRow = (props) => {
-    const {
-      country,
-      countryImage,
-      overallRank,
-      overallRankChange,
-      travelRank,
-      travelRankChange,
-      widgetsRank,
-      widgetsRankChange,
-    } = props;
+    const { country, countryImage, overallRank, overallRankChange, travelRank, travelRankChange, widgetsRank, widgetsRankChange } = props;
 
     return (
       <tr>
         <td className="border-0">
           <Card.Link href="#" className="d-flex align-items-center">
-            <Image
-              src={countryImage}
-              className="image-small rounded-circle me-2"
-            />
+            <Image src={countryImage} className="image-small rounded-circle me-2" />
             <div>
               <span className="h6">{country}</span>
             </div>
@@ -274,23 +221,8 @@ export const TransactionsTable = ({ isAdmin }) => {
   const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
-    const {
-      transactionId,
-      service,
-      account,
-      date,
-      amount,
-      status,
-      merchantId,
-    } = props;
-    const statusVariant =
-      status === "Paid"
-        ? "success"
-        : status === "Due"
-        ? "warning"
-        : status === "Canceled"
-        ? "danger"
-        : "primary";
+    const { transactionId, service, account, date, amount, status, merchantId } = props;
+    const statusVariant = status === "Paid" ? "success" : status === "Due" ? "warning" : status === "Canceled" ? "danger" : "primary";
 
     return (
       <tr>
@@ -319,12 +251,7 @@ export const TransactionsTable = ({ isAdmin }) => {
         </td>
         <td>
           <Dropdown as={ButtonGroup}>
-            <Dropdown.Toggle
-              as={Button}
-              split
-              variant="link"
-              className="text-dark m-0 p-0"
-            >
+            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
               <span className="icon icon-sm">
                 <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
               </span>
@@ -414,8 +341,7 @@ export const CommandsTable = () => {
         <td className="border-0" style={{ width: "40%" }}>
           <pre>
             <Card.Link href={link} target="_blank">
-              Read More{" "}
-              <FontAwesomeIcon icon={faExternalLinkAlt} className="ms-1" />
+              Read More <FontAwesomeIcon icon={faExternalLinkAlt} className="ms-1" />
             </Card.Link>
           </pre>
         </td>
@@ -426,11 +352,7 @@ export const CommandsTable = () => {
   return (
     <Card border="light" className="shadow-sm">
       <Card.Body className="p-0">
-        <Table
-          responsive
-          className="table-centered rounded"
-          style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}
-        >
+        <Table responsive className="table-centered rounded" style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
           <thead className="thead-light">
             <tr>
               <th className="border-0" style={{ width: "5%" }}>
@@ -463,14 +385,7 @@ export const ChannelsTable = () => {
 
   const TableRow = (props) => {
     const { channelName, userName, callbackUrl, shortCode, status } = props;
-    const statusVariant =
-      status === "Active"
-        ? "success"
-        : status === "Dormant"
-        ? "warning"
-        : status === "Inactive"
-        ? "danger"
-        : "primary";
+    const statusVariant = status === "Active" ? "success" : status === "Dormant" ? "warning" : status === "Inactive" ? "danger" : "primary";
 
     return (
       <tr>
@@ -491,12 +406,7 @@ export const ChannelsTable = () => {
         </td>
         <td>
           <Dropdown as={ButtonGroup}>
-            <Dropdown.Toggle
-              as={Button}
-              split
-              variant="link"
-              className="text-dark m-0 p-0"
-            >
+            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
               <span className="icon icon-sm">
                 <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
               </span>
@@ -573,14 +483,7 @@ export const UsersTable = () => {
   const TableRow = (props) => {
     const { id, name, phone, email, joinDate, status, lastLogin } = props;
 
-    const statusVariant =
-      status === "Active"
-        ? "success"
-        : status === "Dormant"
-        ? "warning"
-        : status === "Inactive"
-        ? "danger"
-        : "primary";
+    const statusVariant = status === "Active" ? "success" : status === "Dormant" ? "warning" : status === "Inactive" ? "danger" : "primary";
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState({});
 
@@ -609,39 +512,21 @@ export const UsersTable = () => {
       <tr>
         <td>
           {isEditing ? (
-            <input
-              type="text"
-              value={editedData.name}
-              onChange={(e) =>
-                setEditedData({ ...editedData, name: e.target.value })
-              }
-            />
+            <input type="text" value={editedData.name} onChange={(e) => setEditedData({ ...editedData, name: e.target.value })} />
           ) : (
             <span className="fw-normal">{name}</span>
           )}
         </td>
         <td>
           {isEditing ? (
-            <input
-              type="text"
-              value={editedData.phone}
-              onChange={(e) =>
-                setEditedData({ ...editedData, phone: e.target.value })
-              }
-            />
+            <input type="text" value={editedData.phone} onChange={(e) => setEditedData({ ...editedData, phone: e.target.value })} />
           ) : (
             <span className="fw-normal">{phone}</span>
           )}
         </td>
         <td>
           {isEditing ? (
-            <input
-              type="text"
-              value={editedData.email}
-              onChange={(e) =>
-                setEditedData({ ...editedData, email: e.target.value })
-              }
-            />
+            <input type="text" value={editedData.email} onChange={(e) => setEditedData({ ...editedData, email: e.target.value })} />
           ) : (
             <span className="fw-normal">{email}</span>
           )}
@@ -659,38 +544,23 @@ export const UsersTable = () => {
         <td>
           {isEditing ? (
             <>
-              <FontAwesomeIcon
-                icon={faCheck}
-                className="me-2"
-                onClick={handleSaveClick}
-              />
-              <FontAwesomeIcon
-                icon={faAsterisk}
-                className="me-2"
-                onClick={handleCancelClick}
-              />
+              <FontAwesomeIcon icon={faCheck} className="me-2" onClick={handleSaveClick} />
+              <FontAwesomeIcon icon={faAsterisk} className="me-2" onClick={handleCancelClick} />
             </>
           ) : (
             <Dropdown as={ButtonGroup}>
-              <Dropdown.Toggle
-                as={Button}
-                split
-                variant="link"
-                className="text-dark m-0 p-0"
-              >
+              <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
                 <span className="icon icon-sm">
                   <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
                 </span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={handleEditClick}>
-                  <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
-                  Details
+                  <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit Details
                 </Dropdown.Item>
 
                 <Dropdown.Item onClick={() => handleSendMailClick(email)}>
-                  <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" />{" "}
-                  Send Mail
+                  <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" /> Send Mail
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -756,6 +626,7 @@ export const UsersTable = () => {
 };
 
 export const MerchantTable = () => {
+  //const { data: merchants, error, fetchData, createData, updateData, deleteData } = useApi("merchants");
   const allUsers = users.length;
 
   const [showMailModal, setShowMailModal] = useState(false);
@@ -768,64 +639,53 @@ export const MerchantTable = () => {
     setSelectedEmail(email);
   };
 
-  useEffect(() => {
-    // Fetch merchants when the component mounts
-    fetchEntityData("merchants");
-  }, []);
+  // useEffect(() => {
+  //   // Fetch merchants when the component mounts
+  //   fetchData("merchants");
+  // }, [merchants]);
 
-  const fetchEntityData = async (entityType) => {
-    try {
-      const data = await fetchEntities(entityType);
-      setMerchants(data);
-    } catch (error) {
-      console.error(`Error fetching ${entityType}:`, error);
-    }
-  };
+  // const fetchData = async (entityType) => {
+  //   try {
+  //     const data = await fetchEntities(entityType);
+  //     setMerchants(data);
+  //   } catch (error) {
+  //     console.error(`Error fetching ${entityType}:`, error);
+  //   }
+  // };
 
-  const handleCreateEntity = async (entityType, newData) => {
-    try {
-      const createdEntity = await createEntity(entityType, newData);
-      setMerchants([...merchants, createdEntity]);
-    } catch (error) {
-      console.error(`Error creating ${entityType}:`, error);
-    }
-  };
+  // const handleCreateEntity = async (entityType, newData) => {
+  //   try {
+  //     const createdEntity = await createEntity(entityType, newData);
+  //     setMerchants([...merchants, createdEntity]);
+  //   } catch (error) {
+  //     console.error(`Error creating ${entityType}:`, error);
+  //   }
+  // };
 
-  const handleUpdateEntity = async (entityType, entityId, updatedData) => {
-    try {
-      await updateEntity(entityType, entityId, updatedData);
-      const updatedEntities = merchants.map((entity) =>
-        entity.id === entityId ? { ...entity, ...updatedData } : entity
-      );
-      setMerchants(updatedEntities);
-    } catch (error) {
-      console.error(`Error updating ${entityType}:`, error);
-    }
-  };
+  // const handleUpdateEntity = async (entityType, entityId, updatedData) => {
+  //   try {
+  //     await updateEntity(entityType, entityId, updatedData);
+  //     const updatedEntities = merchants.map((entity) => (entity.id === entityId ? { ...entity, ...updatedData } : entity));
+  //     setMerchants(updatedEntities);
+  //   } catch (error) {
+  //     console.error(`Error updating ${entityType}:`, error);
+  //   }
+  // };
 
-  const handleDeleteEntity = async (entityType, entityId) => {
-    try {
-      await deleteEntity(entityType, entityId);
-      const revisedMerchants = merchants.filter(
-        (entity) => entity.id !== entityId
-      );
-      setMerchants(revisedMerchants);
-    } catch (error) {
-      console.error(`Error deleting ${entityType}:`, error);
-    }
-  };
+  // const handleDeleteEntity = async (entityType, entityId) => {
+  //   try {
+  //     await deleteEntity(entityType, entityId);
+  //     const revisedMerchants = merchants.filter((entity) => entity.id !== entityId);
+  //     setMerchants(revisedMerchants);
+  //   } catch (error) {
+  //     console.error(`Error deleting ${entityType}:`, error);
+  //   }
+  // };
 
   const TableRow = (props) => {
     const { name, phone, email, status, lastLogin, id } = props;
 
-    const statusVariant =
-      status === "Active"
-        ? "success"
-        : status === "Dormant"
-        ? "warning"
-        : status === "Inactive"
-        ? "danger"
-        : "primary";
+    const statusVariant = status === "Active" ? "success" : status === "Dormant" ? "warning" : status === "Inactive" ? "danger" : "primary";
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState({});
@@ -859,39 +719,21 @@ export const MerchantTable = () => {
         </td>
         <td>
           {isEditing ? (
-            <input
-              type="text"
-              value={editedData.name}
-              onChange={(e) =>
-                setEditedData({ ...editedData, name: e.target.value })
-              }
-            />
+            <input type="text" value={editedData.name} onChange={(e) => setEditedData({ ...editedData, name: e.target.value })} />
           ) : (
             <span className="fw-normal">{name}</span>
           )}
         </td>
         <td>
           {isEditing ? (
-            <input
-              type="text"
-              value={editedData.phone}
-              onChange={(e) =>
-                setEditedData({ ...editedData, phone: e.target.value })
-              }
-            />
+            <input type="text" value={editedData.phone} onChange={(e) => setEditedData({ ...editedData, phone: e.target.value })} />
           ) : (
             <span className="fw-normal">{phone}</span>
           )}
         </td>
         <td>
           {isEditing ? (
-            <input
-              type="text"
-              value={editedData.email}
-              onChange={(e) =>
-                setEditedData({ ...editedData, email: e.target.value })
-              }
-            />
+            <input type="text" value={editedData.email} onChange={(e) => setEditedData({ ...editedData, email: e.target.value })} />
           ) : (
             <span className="fw-normal">{email}</span>
           )}
@@ -906,38 +748,23 @@ export const MerchantTable = () => {
         <td>
           {isEditing ? (
             <>
-              <FontAwesomeIcon
-                icon={faCheck}
-                className="me-2"
-                onClick={handleSaveClick}
-              />
-              <FontAwesomeIcon
-                icon={faAsterisk}
-                className="me-2"
-                onClick={handleCancelClick}
-              />
+              <FontAwesomeIcon icon={faCheck} className="me-2" onClick={handleSaveClick} />
+              <FontAwesomeIcon icon={faAsterisk} className="me-2" onClick={handleCancelClick} />
             </>
           ) : (
             <Dropdown as={ButtonGroup}>
-              <Dropdown.Toggle
-                as={Button}
-                split
-                variant="link"
-                className="text-dark m-0 p-0"
-              >
+              <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
                 <span className="icon icon-sm">
                   <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
                 </span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={handleEditClick}>
-                  <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit
-                  Details
+                  <FontAwesomeIcon icon={faEdit} className="me-2" /> Edit Details
                 </Dropdown.Item>
 
                 <Dropdown.Item onClick={() => handleSendMailClick(email)}>
-                  <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" />{" "}
-                  Send Mail
+                  <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" /> Send Mail
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -1002,19 +829,12 @@ export const MerchantTable = () => {
   );
 };
 
-export const ServicesTable = ({ isAdmin }) => {
+export const ServicesTable = ({ transactions, isAdmin }) => {
   const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
     const { transactionId, service, account, status, merchantId } = props;
-    const statusVariant =
-      status === "Paid"
-        ? "success"
-        : status === "Due"
-        ? "warning"
-        : status === "Canceled"
-        ? "danger"
-        : "primary";
+    const statusVariant = status === "Paid" ? "success" : status === "Due" ? "warning" : status === "Canceled" ? "danger" : "primary";
 
     return (
       <tr>
@@ -1036,12 +856,7 @@ export const ServicesTable = ({ isAdmin }) => {
         </td>
         <td>
           <Dropdown as={ButtonGroup}>
-            <Dropdown.Toggle
-              as={Button}
-              split
-              variant="link"
-              className="text-dark m-0 p-0"
-            >
+            <Dropdown.Toggle as={Button} split variant="link" className="text-dark m-0 p-0">
               <span className="icon icon-sm">
                 <FontAwesomeIcon icon={faEllipsisH} className="icon-dark" />
               </span>

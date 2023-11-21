@@ -1,12 +1,28 @@
-
 import React, { useState } from "react";
-import SimpleBar from 'simplebar-react';
+import SimpleBar from "simplebar-react";
 import { useLocation } from "react-router-dom";
-import { CSSTransition } from 'react-transition-group';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faBoxOpen, faChartPie, faCog, faFileAlt, faHandHoldingUsd, faSignOutAlt,faUsers, faTable, faTimes, faCalendarAlt, faMapPin, faInbox, faRocket,faFolder,faBroadcastTower } from "@fortawesome/free-solid-svg-icons";
-import { Nav, Badge, Image, Button, Dropdown, Accordion, Navbar } from '@themesberg/react-bootstrap';
-import { Link } from 'react-router-dom';
+import { CSSTransition } from "react-transition-group";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBook,
+  faBoxOpen,
+  faChartPie,
+  faCog,
+  faFileAlt,
+  faHandHoldingUsd,
+  faSignOutAlt,
+  faUsers,
+  faTable,
+  faTimes,
+  faCalendarAlt,
+  faMapPin,
+  faInbox,
+  faRocket,
+  faFolder,
+  faBroadcastTower,
+} from "@fortawesome/free-solid-svg-icons";
+import { Nav, Badge, Image, Button, Dropdown, Accordion, Navbar } from "@themesberg/react-bootstrap";
+import { Link } from "react-router-dom";
 
 import { Routes } from "../routes";
 import ThemesbergLogo from "../assets/img/themesberg.svg";
@@ -30,14 +46,14 @@ export default (props = {}) => {
         <Accordion.Item eventKey={eventKey}>
           <Accordion.Button as={Nav.Link} className="d-flex justify-content-between align-items-center">
             <span>
-              <span className="sidebar-icon"><FontAwesomeIcon icon={icon} /> </span>
+              <span className="sidebar-icon">
+                <FontAwesomeIcon icon={icon} />{" "}
+              </span>
               <span className="sidebar-text">{title}</span>
             </span>
           </Accordion.Button>
           <Accordion.Body className="multi-level">
-            <Nav className="flex-column">
-              {children}
-            </Nav>
+            <Nav className="flex-column">{children}</Nav>
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
@@ -54,13 +70,19 @@ export default (props = {}) => {
       <Nav.Item className={navItemClassName} onClick={() => setShow(false)}>
         <Nav.Link {...linkProps} target={target} className={classNames}>
           <span>
-            {icon ? <span className="sidebar-icon"><FontAwesomeIcon icon={icon} /> </span> : null}
+            {icon ? (
+              <span className="sidebar-icon">
+                <FontAwesomeIcon icon={icon} />{" "}
+              </span>
+            ) : null}
             {image ? <Image src={image} width={20} height={20} className="sidebar-icon svg-icon" /> : null}
 
             <span className="sidebar-text">{title}</span>
           </span>
           {badgeText ? (
-            <Badge pill bg={badgeBg} text={badgeColor} className="badge-md notification-count ms-2">{badgeText}</Badge>
+            <Badge pill bg={badgeBg} text={badgeColor} className="badge-md notification-count ms-2">
+              {badgeText}
+            </Badge>
           ) : null}
         </Nav.Link>
       </Nav.Item>
@@ -97,26 +119,25 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
-              <NavItem title="JIBOOST"   />
+              <NavItem title="JIBOOST" />
 
               <NavItem title="Dashboard" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <NavItem title="User Management" link={Routes.Usermanagement.path} icon={faUsers} />
               <NavItem title="Merchants" link={Routes.Merchants.path} icon={faUsers} />
-              <NavItem title="Channels" link={Routes.Settings.path} icon={faBroadcastTower} />
+              <NavItem title="Channels" link={Routes.Channels.path} icon={faBroadcastTower} />
               <NavItem title="Services" link={Routes.Services.path} icon={faBook} />
-
 
               {/* <CollapsableNavItem eventKey="documentation/" title="Services" icon={faBook}>
                 <NavItem title="Services Report" link={Routes.Services.path} />
                 {/* <NavItem title="B2C" link={Routes.DocsDownload.path} />
                 <NavItem title="STK  push" link={Routes.DocsQuickStart.path} />
-                <NavItem title="B2B Paybill" link={Routes.DocsLicense.path} /> */} 
-                
+                <NavItem title="B2B Paybill" link={Routes.DocsLicense.path} /> */}
+
               {/* </CollapsableNavItem> */}
 
               <NavItem title="Transactions" icon={faHandHoldingUsd} link={Routes.Transactions.path} />
               <NavItem title="Reports" link={Routes.Reports.path} icon={faTable} />
-              
+
               {/* <CollapsableNavItem eventKey="Reports/" title="Reports" icon={faTable}>
                 <NavItem title=" Reports" link={Routes.BootstrapTables.path} />
               </CollapsableNavItem> */}

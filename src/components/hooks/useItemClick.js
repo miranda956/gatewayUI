@@ -1,34 +1,30 @@
-import{ useState } from 'react';
+import { useState } from "react";
 
 const useItemClick = () => {
+  const [showForm, setShowForm] = useState(false);
 
-    const [showForm,setShowForm]= useState(false)
+  const [visibility, setVisibility] = useState("ShowForm");
 
+  const handleItemClick = (toggle) => {
+    const newItem = toggle === "ShowForm" ? "HideForm" : "ShowForm";
+    setVisibility(newItem);
 
-    const handleItemClick = (itemName) => {
-        if (itemName === "Document") {
-          setShowForm(true);
-        }
-        else if (itemName === "Message") {
-          setShowForm(false);
-        }  else {
-          setShowForm(false);
-        }
-      };
+    if (toggle === "ShowForm") {
+      setShowForm(true);
+    } else if (toggle === "HideForm") {
+      setShowForm(false);
+    } else {
+      setShowForm(false);
+    }
+  };
 
-      const closeForm = () => {
-        setShowForm(false);
-      };
+  const closeForm = () => {
+    setShowForm(false);
+  };
 
-    return { showForm,handleItemClick,closeForm };
-}
- 
+  return { showForm, handleItemClick, closeForm, visibility };
+};
+
 export default useItemClick;
 
-
-
-
 // useItemClick.js
-
-
-

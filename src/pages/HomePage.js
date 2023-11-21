@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { Routes } from "../routes";
 
@@ -7,7 +7,7 @@ import Presentation from "./Presentation";
 import Upgrade from "./Upgrade";
 import DashboardOverview from "./dashboard/DashboardOverview";
 import Transactions from "./Transactions";
-import Settings from "./Settings";
+import Channels from "./Channels";
 import Signin from "./examples/Signin";
 import Signup from "./examples/Signup";
 import ForgotPassword from "./examples/ForgotPassword";
@@ -15,9 +15,9 @@ import ResetPassword from "./examples/ResetPassword";
 import Lock from "./examples/Lock";
 import NotFoundPage from "./examples/NotFound";
 import ServerError from "./examples/ServerError";
-import UserManagement from './UserManagement';
-import Merchants from './Merchants';
-import Services from './Services';
+import UserManagement from "./UserManagement";
+import Merchants from "./Merchants";
+import Services from "./Services";
 
 // documentation pages
 import DocsOverview from "./documentation/DocsOverview";
@@ -50,8 +50,7 @@ import Tables from "./components/Tables";
 import Tabs from "./components/Tabs";
 import Tooltips from "./components/Tooltips";
 import Toasts from "./components/Toasts";
-import Reports from './Reports';
-
+import Reports from "./Reports";
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
@@ -62,7 +61,15 @@ const RouteWithLoader = ({ component: Component, ...rest }) => {
   }, []);
 
   return (
-    <Route {...rest} render={props => ( <> <Preloader show={loaded ? false : true} /> <Component {...props} /> </> ) } />
+    <Route
+      {...rest}
+      render={(props) => (
+        <>
+          {" "}
+          <Preloader show={loaded ? false : true} /> <Component {...props} />{" "}
+        </>
+      )}
+    />
   );
 };
 
@@ -75,29 +82,31 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
   }, []);
 
   const localStorageIsSettingsVisible = () => {
-    return localStorage.getItem('settingsVisible') === 'false' ? false : true
-  }
+    return localStorage.getItem("settingsVisible") === "false" ? false : true;
+  };
 
   const [showSettings, setShowSettings] = useState(localStorageIsSettingsVisible);
 
   const toggleSettings = () => {
     setShowSettings(!showSettings);
-    localStorage.setItem('settingsVisible', !showSettings);
-  }
+    localStorage.setItem("settingsVisible", !showSettings);
+  };
 
   return (
-    <Route {...rest} render={props => (
-      <>
-        <Preloader show={loaded ? false : true} />
-        <Sidebar />
+    <Route
+      {...rest}
+      render={(props) => (
+        <>
+          <Preloader show={loaded ? false : true} />
+          <Sidebar />
 
-        <main className="content">
-          <Navbar />
-          <Component {...props} />
-          <Footer toggleSettings={toggleSettings} showSettings={showSettings} />
-        </main>
-      </>
-    )}
+          <main className="content">
+            <Navbar />
+            <Component {...props} />
+            <Footer toggleSettings={toggleSettings} showSettings={showSettings} />
+          </main>
+        </>
+      )}
     />
   );
 };
@@ -117,13 +126,11 @@ export default () => (
     <RouteWithSidebar exact path={Routes.DashboardOverview.path} component={DashboardOverview} />
     <RouteWithSidebar exact path={Routes.Upgrade.path} component={Upgrade} />
     <RouteWithSidebar exact path={Routes.Transactions.path} component={Transactions} />
-    <RouteWithSidebar exact path={Routes.Settings.path} component={Settings} />
+    <RouteWithSidebar exact path={Routes.Channels.path} component={Channels} />
     <RouteWithSidebar exact path={Routes.Usermanagement.path} component={UserManagement} />
     <RouteWithSidebar exact path={Routes.Merchants.path} component={Merchants} />
     <RouteWithSidebar exact path={Routes.Services.path} component={Services} />
     <RouteWithSidebar exact path={Routes.Reports.path} component={Reports} />
-
-
 
     {/* components */}
     <RouteWithSidebar exact path={Routes.Accordions.path} component={Accordion} />

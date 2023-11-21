@@ -12,11 +12,12 @@ import {
   faRocket,
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
-import { Col, Row, Button, Dropdown, ButtonGroup, DropdownButton } from "@themesberg/react-bootstrap";
+import { Col, Row, Button, ButtonGroup, Dropdown, DropdownButton } from "@themesberg/react-bootstrap";
 import { ChoosePhotoWidget, ProfileCardWidget } from "../components/Widgets";
-import { CreateMerchant, GeneralInfoForm, UserSearch } from "../components/Forms";
+import { GeneralInfoForm } from "../components/Forms";
+
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
-import { MerchantTable } from "../components/Tables";
+import { ChannelsTable, CommandsTable, MerchantsTable, TransactionsTable } from "../components/Tables";
 import useItemClick from "../components/hooks/useItemClick";
 
 export default () => {
@@ -45,11 +46,11 @@ export default () => {
 
       <Row>
         <Col xs={12} xl={8}>
-          {showForm && <CreateMerchant onClose={closeForm} />}
+          {showForm && <GeneralInfoForm onClose={closeForm} />}
         </Col>
       </Row>
 
-      <MerchantTable />
+      <ChannelsTable />
     </>
   );
 };
