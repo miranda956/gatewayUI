@@ -13,8 +13,8 @@
 
 // * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 import { HashRouter } from "react-router-dom";
 
 // core styles
@@ -25,11 +25,17 @@ import "react-datetime/css/react-datetime.css";
 
 import HomePage from "./pages/HomePage";
 import ScrollToTop from "./components/ScrollToTop";
+import { AuthContextProvider } from "./components/Contexts/AuthContext";
+import { ApiContextProvider } from "./components/Contexts/APIContext";
 
 ReactDOM.render(
   <HashRouter>
     <ScrollToTop />
-    <HomePage />
+    <ApiContextProvider>
+      <AuthContextProvider>
+        <HomePage />
+      </AuthContextProvider>
+    </ApiContextProvider>
   </HashRouter>,
   document.getElementById("root")
 );

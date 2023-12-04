@@ -1,32 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, useLocation } from "react-router-dom";
 import { Routes } from "../routes";
 
 // pages
-import Presentation from "./Presentation";
-import Upgrade from "./Upgrade";
+
 import DashboardOverview from "./dashboard/DashboardOverview";
 import Transactions from "./Transactions";
 import Channels from "./Channels";
-import Signin from "./examples/Signin";
-import Signup from "./examples/Signup";
-import ForgotPassword from "./examples/ForgotPassword";
-import ResetPassword from "./examples/ResetPassword";
-import Lock from "./examples/Lock";
-import NotFoundPage from "./examples/NotFound";
-import ServerError from "./examples/ServerError";
+import Signin from "./auth/Signin";
+import Signup from "./auth/Signup";
+import ForgotPassword from "./redirects_and_errors/ForgotPassword";
+import ResetPassword from "./redirects_and_errors/ResetPassword";
+import Lock from "./redirects_and_errors/Lock";
+import NotFoundPage from "./redirects_and_errors/NotFound";
+import ServerError from "./redirects_and_errors/ServerError";
 import UserManagement from "./UserManagement";
 import Merchants from "./Merchants";
 import Services from "./Services";
-
-// documentation pages
-import DocsOverview from "./documentation/DocsOverview";
-import DocsDownload from "./documentation/DocsDownload";
-import DocsQuickStart from "./documentation/DocsQuickStart";
-import DocsLicense from "./documentation/DocsLicense";
-import DocsFolderStructure from "./documentation/DocsFolderStructure";
-import DocsBuild from "./documentation/DocsBuild";
-import DocsChangelog from "./documentation/DocsChangelog";
+import Reports from "./Reports";
 
 // components
 import Sidebar from "../components/Sidebar";
@@ -34,23 +25,9 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
 
-import Accordion from "./components/Accordion";
-import Alerts from "./components/Alerts";
-import Badges from "./components/Badges";
-import Breadcrumbs from "./components/Breadcrumbs";
-import Buttons from "./components/Buttons";
-import Forms from "./components/Forms";
-import Modals from "./components/Modals";
-import Navs from "./components/Navs";
-import Navbars from "./components/Navbars";
-import Pagination from "./components/Pagination";
-import Popovers from "./components/Popovers";
-import Progress from "./components/Progress";
-import Tables from "./components/Tables";
-import Tabs from "./components/Tabs";
-import Tooltips from "./components/Tooltips";
-import Toasts from "./components/Toasts";
-import Reports from "./Reports";
+import { useAuthContext } from "../components/Contexts/AuthContext";
+
+//protected pages
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
@@ -73,13 +50,28 @@ const RouteWithLoader = ({ component: Component, ...rest }) => {
   );
 };
 
-const RouteWithSidebar = ({ component: Component, ...rest }) => {
+const RouteWithSidebar = ({ component: Component, protectedRoute, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
+  const { user, dispatch } = useAuthContext();
+  const location = useLocation();
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 1000);
+    const loadUserFromStorage = () => {
+      const storedUser = JSON.parse(sessionStorage.getItem("user"));
+      if (storedUser) {
+        dispatch({ type: "LOGIN", payload: storedUser });
+      }
+    };
+
+    const timer = setTimeout(() => {
+      loadUserFromStorage();
+      setAuthLoading(false);
+      setLoaded(true);
+    }, 500);
+
     return () => clearTimeout(timer);
-  }, []);
+  }, [dispatch]);
 
   const localStorageIsSettingsVisible = () => {
     return localStorage.getItem("settingsVisible") === "false" ? false : true;
@@ -91,6 +83,14 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
     setShowSettings(!showSettings);
     localStorage.setItem("settingsVisible", !showSettings);
   };
+
+  if (protectedRoute && authLoading) {
+    return <Preloader show={true} />;
+  }
+
+  if (protectedRoute && !user) {
+    return <Redirect to={{ pathname: Routes.Signin.path, state: { from: location } }} />;
+  }
 
   return (
     <Route
@@ -113,6 +113,7 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
 
 export default () => (
   <Switch>
+    <RouteWithSidebar exact path={Routes.DashboardOverview.path} component={DashboardOverview} />
     <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} />
     <RouteWithLoader exact path={Routes.Signin.path} component={Signin} />
     <RouteWithLoader exact path={Routes.Signup.path} component={Signup} />
@@ -122,42 +123,14 @@ export default () => (
     <RouteWithLoader exact path={Routes.NotFound.path} component={NotFoundPage} />
     <RouteWithLoader exact path={Routes.ServerError.path} component={ServerError} />
 
-    {/* pages */}
-    <RouteWithSidebar exact path={Routes.DashboardOverview.path} component={DashboardOverview} />
-    <RouteWithSidebar exact path={Routes.Upgrade.path} component={Upgrade} />
-    <RouteWithSidebar exact path={Routes.Transactions.path} component={Transactions} />
-    <RouteWithSidebar exact path={Routes.Channels.path} component={Channels} />
-    <RouteWithSidebar exact path={Routes.Usermanagement.path} component={UserManagement} />
-    <RouteWithSidebar exact path={Routes.Merchants.path} component={Merchants} />
-    <RouteWithSidebar exact path={Routes.Services.path} component={Services} />
-    <RouteWithSidebar exact path={Routes.Reports.path} component={Reports} />
+    {/* protected pages */}
 
-    {/* components */}
-    <RouteWithSidebar exact path={Routes.Accordions.path} component={Accordion} />
-    <RouteWithSidebar exact path={Routes.Alerts.path} component={Alerts} />
-    <RouteWithSidebar exact path={Routes.Badges.path} component={Badges} />
-    <RouteWithSidebar exact path={Routes.Breadcrumbs.path} component={Breadcrumbs} />
-    <RouteWithSidebar exact path={Routes.Buttons.path} component={Buttons} />
-    <RouteWithSidebar exact path={Routes.Forms.path} component={Forms} />
-    <RouteWithSidebar exact path={Routes.Modals.path} component={Modals} />
-    <RouteWithSidebar exact path={Routes.Navs.path} component={Navs} />
-    <RouteWithSidebar exact path={Routes.Navbars.path} component={Navbars} />
-    <RouteWithSidebar exact path={Routes.Pagination.path} component={Pagination} />
-    <RouteWithSidebar exact path={Routes.Popovers.path} component={Popovers} />
-    <RouteWithSidebar exact path={Routes.Progress.path} component={Progress} />
-    <RouteWithSidebar exact path={Routes.Tables.path} component={Tables} />
-    <RouteWithSidebar exact path={Routes.Tabs.path} component={Tabs} />
-    <RouteWithSidebar exact path={Routes.Tooltips.path} component={Tooltips} />
-    <RouteWithSidebar exact path={Routes.Toasts.path} component={Toasts} />
-
-    {/* documentation */}
-    <RouteWithSidebar exact path={Routes.DocsOverview.path} component={DocsOverview} />
-    <RouteWithSidebar exact path={Routes.DocsDownload.path} component={DocsDownload} />
-    <RouteWithSidebar exact path={Routes.DocsQuickStart.path} component={DocsQuickStart} />
-    <RouteWithSidebar exact path={Routes.DocsLicense.path} component={DocsLicense} />
-    <RouteWithSidebar exact path={Routes.DocsFolderStructure.path} component={DocsFolderStructure} />
-    <RouteWithSidebar exact path={Routes.DocsBuild.path} component={DocsBuild} />
-    <RouteWithSidebar exact path={Routes.DocsChangelog.path} component={DocsChangelog} />
+    <RouteWithSidebar exact path={Routes.Transactions.path} protectedRoute={true} component={Transactions} />
+    <RouteWithSidebar exact path={Routes.Channels.path} protectedRoute={true} component={Channels} />
+    <RouteWithSidebar exact path={Routes.Usermanagement.path} protectedRoute={true} component={UserManagement} />
+    <RouteWithSidebar exact path={Routes.Merchants.path} protectedRoute={true} component={Merchants} />
+    <RouteWithSidebar exact path={Routes.Services.path} protectedRoute={true} component={Services} />
+    <RouteWithSidebar exact path={Routes.Reports.path} protectedRoute={true} component={Reports} />
 
     <Redirect to={Routes.NotFound.path} />
   </Switch>

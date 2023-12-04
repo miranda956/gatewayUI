@@ -1,16 +1,29 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { faFacebookF, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Col, Row, Form, Card, Button, FormCheck, Container, InputGroup } from '@themesberg/react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Col, Row, Form, Card, Button, FormCheck, Container, InputGroup } from "@themesberg/react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 
 import { Routes } from "../../routes";
-import BgImage from "../../assets/img/illustrations/signin.svg";
 
+import BgImage from "../../assets/img/illustrations/signin.svg";
+import { useLogin } from "../../components/hooks/useLogin";
 
 export default () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login, isLoading, error } = useLogin();
+  const isFormValid = email && password;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (isFormValid) {
+      login(email, password);
+    }
+  };
+
   return (
     <main>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
@@ -33,7 +46,7 @@ export default () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faEnvelope} />
                       </InputGroup.Text>
-                      <Form.Control autoFocus required type="email" placeholder="example@company.com" />
+                      <Form.Control autoFocus required type="email" placeholder="example@company.com" onChange={(e) => setEmail(e.target.value)} />
                     </InputGroup>
                   </Form.Group>
                   <Form.Group>
@@ -43,18 +56,22 @@ export default () => {
                         <InputGroup.Text>
                           <FontAwesomeIcon icon={faUnlockAlt} />
                         </InputGroup.Text>
-                        <Form.Control required type="password" placeholder="Password" />
+                        <Form.Control required type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                       </InputGroup>
                     </Form.Group>
                     <div className="d-flex justify-content-between align-items-center mb-4">
                       <Form.Check type="checkbox">
                         <FormCheck.Input id="defaultCheck5" className="me-2" />
-                        <FormCheck.Label htmlFor="defaultCheck5" className="mb-0">Remember me</FormCheck.Label>
+                        <FormCheck.Label htmlFor="defaultCheck5" className="mb-0">
+                          Remember me
+                        </FormCheck.Label>
                       </Form.Check>
-                      <Card.Link className="small text-end">Lost password?</Card.Link>
+                      <Card.Link as={Link} to={Routes.ForgotPassword.path} className="small text-end">
+                        Lost password?
+                      </Card.Link>
                     </div>
                   </Form.Group>
-                  <Button variant="primary" type="submit" className="w-100">
+                  <Button variant="primary" type="submit" className="w-100" onClick={handleSubmit} disabled={!isFormValid}>
                     Sign in
                   </Button>
                 </Form>

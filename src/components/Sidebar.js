@@ -5,27 +5,19 @@ import { CSSTransition } from "react-transition-group";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
-  faBoxOpen,
   faChartPie,
-  faCog,
-  faFileAlt,
   faHandHoldingUsd,
   faSignOutAlt,
   faUsers,
   faTable,
   faTimes,
-  faCalendarAlt,
-  faMapPin,
-  faInbox,
-  faRocket,
-  faFolder,
   faBroadcastTower,
+  faUserAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { Nav, Badge, Image, Button, Dropdown, Accordion, Navbar } from "@themesberg/react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { Routes } from "../routes";
-import ThemesbergLogo from "../assets/img/themesberg.svg";
 import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
 
@@ -119,30 +111,15 @@ export default (props = {}) => {
               </Nav.Link>
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
-              <NavItem title="JIBOOST" />
-
+              <NavItem title="ADMIN DASHBOARD" />
               <NavItem title="Dashboard" link={Routes.DashboardOverview.path} icon={faChartPie} />
-              <NavItem title="User Management" link={Routes.Usermanagement.path} icon={faUsers} />
+              <NavItem title="User Management" link={Routes.Usermanagement.path} icon={faUserAlt} />
               <NavItem title="Merchants" link={Routes.Merchants.path} icon={faUsers} />
               <NavItem title="Channels" link={Routes.Channels.path} icon={faBroadcastTower} />
               <NavItem title="Services" link={Routes.Services.path} icon={faBook} />
-
-              {/* <CollapsableNavItem eventKey="documentation/" title="Services" icon={faBook}>
-                <NavItem title="Services Report" link={Routes.Services.path} />
-                {/* <NavItem title="B2C" link={Routes.DocsDownload.path} />
-                <NavItem title="STK  push" link={Routes.DocsQuickStart.path} />
-                <NavItem title="B2B Paybill" link={Routes.DocsLicense.path} /> */}
-
-              {/* </CollapsableNavItem> */}
-
               <NavItem title="Transactions" icon={faHandHoldingUsd} link={Routes.Transactions.path} />
               <NavItem title="Reports" link={Routes.Reports.path} icon={faTable} />
-
-              {/* <CollapsableNavItem eventKey="Reports/" title="Reports" icon={faTable}>
-                <NavItem title=" Reports" link={Routes.BootstrapTables.path} />
-              </CollapsableNavItem> */}
               <Dropdown.Divider className="my-3 border-indigo" />
-              {/* <NavItem external title="Developer Docs" link="/" target="_blank"  /> */}
             </Nav>
           </div>
         </SimpleBar>

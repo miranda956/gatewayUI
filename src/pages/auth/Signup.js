@@ -1,16 +1,47 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { faFacebookF, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { Col, Row, Form, Card, Button, FormCheck, Container, InputGroup } from '@themesberg/react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Col, Row, Form, Card, Button, FormCheck, Container, InputGroup } from "@themesberg/react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 
 import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
-
+import { useSignUp } from "../../components/hooks/useSignUp";
 
 export default () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [passwordMatchError, setPasswordMatchError] = useState("");
+  const { signup, isLoading, error } = useSignUp();
+  const history = useHistory();
+
+  const isFormValid = email && password && confirmPassword && agreeToTerms;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const submittedEmail = email;
+    const submittedpassword = password;
+
+    if (password !== confirmPassword) {
+      setPasswordMatchError("Passwords do not match");
+      return;
+    }
+
+    // Clear the password match error if passwords match
+    setPasswordMatchError("");
+
+    signup(email, password);
+    console.log("Submitted Email:", submittedEmail, "Password:", submittedpassword);
+
+    if (isFormValid) {
+      history.push(Routes.DashboardOverview.path);
+    }
+  };
+
   return (
     <main>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
@@ -33,7 +64,7 @@ export default () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faEnvelope} />
                       </InputGroup.Text>
-                      <Form.Control autoFocus required type="email" placeholder="example@company.com" />
+                      <Form.Control autoFocus required type="email" placeholder="example@company.com" onChange={(e) => setEmail(e.target.value)} />
                     </InputGroup>
                   </Form.Group>
                   <Form.Group id="password" className="mb-4">
@@ -42,7 +73,7 @@ export default () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
-                      <Form.Control required type="password" placeholder="Password" />
+                      <Form.Control required type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                     </InputGroup>
                   </Form.Group>
                   <Form.Group id="confirmPassword" className="mb-4">
@@ -51,19 +82,29 @@ export default () => {
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faUnlockAlt} />
                       </InputGroup.Text>
-                      <Form.Control required type="password" placeholder="Confirm Password" />
+                      <Form.Control required type="password" placeholder="Confirm Password" onChange={(e) => setConfirmPassword(e.target.value)} />
                     </InputGroup>
+                    {passwordMatchError && <div className="text-danger">{passwordMatchError}</div>}
                   </Form.Group>
                   <FormCheck type="checkbox" className="d-flex mb-4">
-                    <FormCheck.Input required id="terms" className="me-2" />
+                    <FormCheck.Input
+                      required
+                      id="terms"
+                      className="me-2"
+                      checked={agreeToTerms}
+                      onChange={() => {
+                        setAgreeToTerms(!agreeToTerms);
+                      }}
+                    />
                     <FormCheck.Label htmlFor="terms">
                       I agree to the <Card.Link>terms and conditions</Card.Link>
                     </FormCheck.Label>
                   </FormCheck>
 
-                  <Button variant="primary" type="submit" className="w-100">
+                  <Button variant="primary" type="submit" className="w-100" onClick={handleSubmit} disabled={!isFormValid}>
                     Sign up
                   </Button>
+                  {error && <div className="error">{error}</div>}
                 </Form>
 
                 <div className="mt-3 mb-4 text-center">

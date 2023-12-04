@@ -1,19 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faBoxOpen,
-  faCartArrowDown,
-  faChartPie,
-  faChevronDown,
-  faClipboard,
-  faCommentDots,
-  faFileAlt,
-  faPlus,
-  faRocket,
-  faStore,
-} from "@fortawesome/free-solid-svg-icons";
-import { Breadcrumb, Button, ButtonGroup, Dropdown, DropdownButton } from "@themesberg/react-bootstrap";
+import { faBoxOpen, faCartArrowDown, faChevronDown, faClipboard, faRocket, faStore } from "@fortawesome/free-solid-svg-icons";
+import { Button, ButtonGroup, Dropdown, DropdownButton } from "@themesberg/react-bootstrap";
 import { ServicesTable, TransactionsTable, UsersTable } from "../components/Tables";
 
 export default () => {

@@ -12,24 +12,16 @@ import {
   faExternalLinkAlt,
   faEye,
   faCheck,
-  faCross,
-  faTimes,
-  faTrashAlt,
-  faCut,
   faAsterisk,
 } from "@fortawesome/free-solid-svg-icons";
-import { Col, Row, Nav, Card, Image, Button, Form, Table, Dropdown, Modal, ProgressBar, Pagination, ButtonGroup } from "@themesberg/react-bootstrap";
-import { Link } from "react-router-dom";
+import { Col, Row, Nav, Card, Image, Button, Table, Dropdown, ProgressBar, Pagination, ButtonGroup } from "@themesberg/react-bootstrap";
 
-import { Routes } from "../routes";
 import { pageVisits, pageTraffic, pageRanking } from "../data/tables";
 import transactions from "../data/transactions";
 import channels from "../data/channels";
 import commands from "../data/commands";
 import users from "../data/users";
 import SendMail from "./Modals";
-
-import { fetchEntities, createEntity, deleteEntity, updateEntity } from "./apis/apis";
 
 const ValueChange = ({ value, suffix }) => {
   const valueIcon = value < 0 ? faAngleDown : faAngleUp;
@@ -292,7 +284,7 @@ export const TransactionsTable = ({ isAdmin }) => {
           </thead>
           <tbody>
             {transactions.map((t) => (
-              <TableRow key={`transaction-${t.Transaction_Id}`} {...t} />
+              <TableRow key={`transaction-${t.transactionId}`} {...t} />
             ))}
           </tbody>
         </Table>
@@ -469,11 +461,21 @@ export const ChannelsTable = () => {
 };
 
 export const UsersTable = () => {
-  const allUsers = users.length;
+  const usersPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const [usersData, setUsersData] = useState(users);
+  const currentUsers = usersData.slice(indexOfFirstUser, indexOfLastUser);
+
+  const totalPages = Math.ceil(users.length / usersPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const [showMailModal, setShowMailModal] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState("");
-  const [usersData, setUsers] = useState(users);
 
   const handleSendMailClick = (email) => {
     setShowMailModal(true);
@@ -500,7 +502,7 @@ export const UsersTable = () => {
         return user;
       });
 
-      setUsers(updatedUsers);
+      setUsersData(updatedUsers);
 
       setIsEditing(false);
     };
@@ -588,7 +590,7 @@ export const UsersTable = () => {
               </tr>
             </thead>
             <tbody>
-              {usersData.map((user) => (
+              {currentUsers.map((user) => (
                 <TableRow key={`user-${user.id}`} {...user} />
               ))}
             </tbody>
@@ -596,17 +598,22 @@ export const UsersTable = () => {
           <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
             <Nav>
               <Pagination className="mb-2 mb-lg-0">
-                <Pagination.Prev>Previous</Pagination.Prev>
-                <Pagination.Item active>1</Pagination.Item>
-                <Pagination.Item>2</Pagination.Item>
-                <Pagination.Item>3</Pagination.Item>
-                <Pagination.Item>4</Pagination.Item>
-                <Pagination.Item>5</Pagination.Item>
-                <Pagination.Next>Next</Pagination.Next>
+                <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                  Previous
+                </Pagination.Prev>
+                {[...Array(totalPages).keys()].map((page) => (
+                  <Pagination.Item key={page + 1} active={page + 1 === currentPage} onClick={() => handlePageChange(page + 1)}>
+                    {page + 1}
+                  </Pagination.Item>
+                ))}
+
+                <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                  Next
+                </Pagination.Next>
               </Pagination>
             </Nav>
             <small className="fw-bold">
-              Showing <b>{allUsers}</b> out of <b>25</b> entries
+              Showing <b>{indexOfFirstUser + 1}</b> to <b>{Math.min(indexOfLastUser, users.length)}</b> of <b>{users.length}</b> entries
             </small>
           </Card.Footer>
         </Card.Body>
@@ -626,7 +633,6 @@ export const UsersTable = () => {
 };
 
 export const MerchantTable = () => {
-  //const { data: merchants, error, fetchData, createData, updateData, deleteData } = useApi("merchants");
   const allUsers = users.length;
 
   const [showMailModal, setShowMailModal] = useState(false);
@@ -638,49 +644,6 @@ export const MerchantTable = () => {
     setShowMailModal(true);
     setSelectedEmail(email);
   };
-
-  // useEffect(() => {
-  //   // Fetch merchants when the component mounts
-  //   fetchData("merchants");
-  // }, [merchants]);
-
-  // const fetchData = async (entityType) => {
-  //   try {
-  //     const data = await fetchEntities(entityType);
-  //     setMerchants(data);
-  //   } catch (error) {
-  //     console.error(`Error fetching ${entityType}:`, error);
-  //   }
-  // };
-
-  // const handleCreateEntity = async (entityType, newData) => {
-  //   try {
-  //     const createdEntity = await createEntity(entityType, newData);
-  //     setMerchants([...merchants, createdEntity]);
-  //   } catch (error) {
-  //     console.error(`Error creating ${entityType}:`, error);
-  //   }
-  // };
-
-  // const handleUpdateEntity = async (entityType, entityId, updatedData) => {
-  //   try {
-  //     await updateEntity(entityType, entityId, updatedData);
-  //     const updatedEntities = merchants.map((entity) => (entity.id === entityId ? { ...entity, ...updatedData } : entity));
-  //     setMerchants(updatedEntities);
-  //   } catch (error) {
-  //     console.error(`Error updating ${entityType}:`, error);
-  //   }
-  // };
-
-  // const handleDeleteEntity = async (entityType, entityId) => {
-  //   try {
-  //     await deleteEntity(entityType, entityId);
-  //     const revisedMerchants = merchants.filter((entity) => entity.id !== entityId);
-  //     setMerchants(revisedMerchants);
-  //   } catch (error) {
-  //     console.error(`Error deleting ${entityType}:`, error);
-  //   }
-  // };
 
   const TableRow = (props) => {
     const { name, phone, email, status, lastLogin, id } = props;
@@ -829,7 +792,7 @@ export const MerchantTable = () => {
   );
 };
 
-export const ServicesTable = ({ transactions, isAdmin }) => {
+export const ServicesTable = ({ isAdmin }) => {
   const totalTransactions = transactions.length;
 
   const TableRow = (props) => {
@@ -895,7 +858,7 @@ export const ServicesTable = ({ transactions, isAdmin }) => {
           </thead>
           <tbody>
             {transactions.map((t) => (
-              <TableRow key={`transaction-${t.Transaction_Id}`} {...t} />
+              <TableRow key={`transaction-${t.transactionId}`} {...t} />
             ))}
           </tbody>
         </Table>

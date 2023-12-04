@@ -1,10 +1,11 @@
 // useApi.js
 import { useState } from "react";
-import { fetchEntities, createEntity, updateEntity, deleteEntity } from "../apis/apis";
+import { useApiContext } from "../Contexts/APIContext";
 
-export const useApi = (entityType) => {
-  const [data, setData] = useState([]);
+export const useApis = (entityType) => {
+  const data = state[entityType] || [];
   const [error, setError] = useState(null);
+  const [fetchEntities, createEntity, updateEntity, deleteEntity] = useApiContext();
 
   const fetchData = async () => {
     try {
@@ -16,7 +17,7 @@ export const useApi = (entityType) => {
     }
   };
 
-  const createData = async (newData) => {
+  const createData = async (entityType, newData) => {
     try {
       const createdEntity = await createEntity(entityType, newData);
       setData((prevData) => [...prevData, createdEntity]);
@@ -26,7 +27,7 @@ export const useApi = (entityType) => {
     }
   };
 
-  const updateData = async (entityId, updatedData) => {
+  const updateData = async (entityType, entityId, updatedData) => {
     try {
       await updateEntity(entityType, entityId, updatedData);
       setData((prevData) => prevData.map((entity) => (entity.id === entityId ? { ...entity, ...updatedData } : entity)));

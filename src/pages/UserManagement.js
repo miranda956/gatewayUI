@@ -1,30 +1,18 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBoxOpen,
-  faCartArrowDown,
-  faChartPie,
-  faChevronDown,
-  faClipboard,
-  faCommentDots,
-  faFileAlt,
-  faPlus,
-  faRocket,
-  faStore,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Button, Dropdown, ButtonGroup, DropdownButton } from "@themesberg/react-bootstrap";
-import { ChoosePhotoWidget, ProfileCardWidget } from "../components/Widgets";
-import { GeneralInfoForm, UserSearch } from "../components/Forms";
+import { CreateUser } from "../components/Forms";
 
-import Profile3 from "../assets/img/team/profile-picture-3.jpg";
-import { ChannelsTable, CommandsTable, UsersTable, TransactionsTable } from "../components/Tables";
+import { UsersTable } from "../components/Tables";
 import useItemClick from "../components/hooks/useItemClick";
 import users from "../data/users";
 
-import { exportCSV, exportPDF } from "../components/Myfunctions";
+import { useExports } from "../components/hooks/useExports";
+
 export default () => {
   const { showForm, handleItemClick, closeForm, visibility } = useItemClick();
-
+  const { exportCSV, exportPDF } = useExports();
   const usersHeaders = ["NAME", "PHONE", "EMAIL", "DURATION", "STATUS"];
 
   const usersData = users.map((u) => ({
@@ -56,7 +44,7 @@ export default () => {
   };
 
   const handleExportPDF = () => {
-    exportPDF(rows, columns);
+    exportPDF(rows, columns, "users");
   };
 
   return (
@@ -82,7 +70,7 @@ export default () => {
 
       <Row>
         <Col xs={12} xl={8}>
-          {showForm && <UserSearch onClose={closeForm} />}
+          {showForm && <CreateUser onClose={closeForm} />}
         </Col>
       </Row>
 
