@@ -5,7 +5,7 @@ import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Col, Row, Form, Card, Button, Container, InputGroup } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { Routes } from "../../routes";
+import { Routes } from "../routes";
 
 
 export default () => {
@@ -30,7 +30,7 @@ export default () => {
                       <Form.Control required autoFocus type="email" placeholder="john@company.com" />
                     </InputGroup>
                   </div>
-                  <Button variant="primary" type="submit" className="w-100">
+                  <Button variant="primary" type="submit" className="w-100" as={Link} to={Routes.ResetPassword.path}> 
                     Recover password
                   </Button>
                 </Form>

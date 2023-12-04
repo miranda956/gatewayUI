@@ -5,7 +5,7 @@ import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-sv
 import { Col, Row, Form, Card, Button, Container, InputGroup } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { Routes } from "../../routes";
+import { Routes } from "../routes";
 
 
 export default () => {
@@ -21,7 +21,7 @@ export default () => {
             </p>
             <Col xs={12} className="d-flex align-items-center justify-content-center">
               <div className="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
-                <h3 className="mb-4">Reset password</h3>
+                <h3 className="mb-4" as={Link} to={Routes.ResetPassword.path} >Reset password</h3>
                 <Form>
                   <Form.Group id="email" className="mb-4">
                     <Form.Label>Your Email</Form.Label>
@@ -50,7 +50,7 @@ export default () => {
                       <Form.Control required type="password" placeholder="Confirm Password" />
                     </InputGroup>
                   </Form.Group>
-                  <Button variant="primary" type="submit" className="w-100">
+                  <Button variant="primary" type="submit" className="w-100" as={Link} to={Routes.Signin.path}>
                     Reset password
                   </Button>
                 </Form>
