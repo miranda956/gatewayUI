@@ -22,6 +22,7 @@ import channels from "../data/channels";
 import commands from "../data/commands";
 import users from "../data/users";
 import SendMail from "./Modals";
+import { usePagination } from "./hooks/usePagination";
 
 const ValueChange = ({ value, suffix }) => {
   const valueIcon = value < 0 ? faAngleDown : faAngleUp;
@@ -210,7 +211,8 @@ export const RankingTable = () => {
 };
 
 export const TransactionsTable = ({ isAdmin }) => {
-  const totalTransactions = transactions.length;
+  const { currentItems, totalPages, currentPage, indexOfFirstItem, indexOfLastItem, handleFirstPageClick, handleLastPageClick, handlePageChange } =
+    usePagination(transactions);
 
   const TableRow = (props) => {
     const { transactionId, service, account, date, amount, status, merchantId } = props;
@@ -255,9 +257,6 @@ export const TransactionsTable = ({ isAdmin }) => {
               <Dropdown.Item>
                 <FontAwesomeIcon icon={faShare} className="me-2" /> Share
               </Dropdown.Item>
-              {/* <Dropdown.Item className="text-danger">
-                <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
-              </Dropdown.Item> */}
             </Dropdown.Menu>
           </Dropdown>
         </td>
@@ -283,7 +282,7 @@ export const TransactionsTable = ({ isAdmin }) => {
             </tr>
           </thead>
           <tbody>
-            {transactions.map((t) => (
+            {currentItems.map((t) => (
               <TableRow key={`transaction-${t.transactionId}`} {...t} />
             ))}
           </tbody>
@@ -291,17 +290,23 @@ export const TransactionsTable = ({ isAdmin }) => {
         <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
           <Nav>
             <Pagination className="mb-2 mb-lg-0">
-              <Pagination.Prev>Previous</Pagination.Prev>
-              <Pagination.Item active>1</Pagination.Item>
-              <Pagination.Item>2</Pagination.Item>
-              <Pagination.Item>3</Pagination.Item>
-              <Pagination.Item>4</Pagination.Item>
-              <Pagination.Item>5</Pagination.Item>
-              <Pagination.Next>Next</Pagination.Next>
+              <Pagination.First onClick={handleFirstPageClick} />
+              <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                Previous
+              </Pagination.Prev>
+              {[...Array(totalPages).keys()].map((page) => (
+                <Pagination.Item key={page + 1} active={page + 1 === currentPage} onClick={() => handlePageChange(page + 1)}>
+                  {page + 1}
+                </Pagination.Item>
+              ))}
+              <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                Next
+              </Pagination.Next>
+              <Pagination.Last onClick={handleLastPageClick} />
             </Pagination>
           </Nav>
           <small className="fw-bold">
-            Showing <b>{totalTransactions}</b> out of <b>25</b> entries
+            Showing <b>{indexOfFirstItem + 1}</b> to <b>{Math.min(indexOfLastItem, transactions.length)}</b> of <b>{transactions.length}</b> entries
           </small>
         </Card.Footer>
       </Card.Body>
@@ -373,7 +378,8 @@ export const CommandsTable = () => {
 };
 
 export const ChannelsTable = () => {
-  const totalChannels = channels.length;
+  const { currentItems, totalPages, currentPage, indexOfFirstItem, indexOfLastItem, handleFirstPageClick, handleLastPageClick, handlePageChange } =
+    usePagination(channels);
 
   const TableRow = (props) => {
     const { channelName, userName, callbackUrl, shortCode, status } = props;
@@ -434,25 +440,31 @@ export const ChannelsTable = () => {
             </tr>
           </thead>
           <tbody>
-            {channels.map((channel) => (
-              <TableRow key={`channel-${channel.channelId}`} {...channel} />
+            {currentItems.map((channel) => (
+              <TableRow key={`user-${channel.channelId}`} {...channel} />
             ))}
           </tbody>
         </Table>
         <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
           <Nav>
             <Pagination className="mb-2 mb-lg-0">
-              <Pagination.Prev>Previous</Pagination.Prev>
-              <Pagination.Item active>1</Pagination.Item>
-              <Pagination.Item>2</Pagination.Item>
-              <Pagination.Item>3</Pagination.Item>
-              <Pagination.Item>4</Pagination.Item>
-              <Pagination.Item>5</Pagination.Item>
-              <Pagination.Next>Next</Pagination.Next>
+              <Pagination.First onClick={handleFirstPageClick} />
+              <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                Previous
+              </Pagination.Prev>
+              {[...Array(totalPages).keys()].map((page) => (
+                <Pagination.Item key={page + 1} active={page + 1 === currentPage} onClick={() => handlePageChange(page + 1)}>
+                  {page + 1}
+                </Pagination.Item>
+              ))}
+              <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                Next
+              </Pagination.Next>
+              <Pagination.Last onClick={handleLastPageClick} />
             </Pagination>
           </Nav>
           <small className="fw-bold">
-            Showing <b>{totalChannels}</b> out of <b>25</b> entries
+            Showing <b>{indexOfFirstItem + 1}</b> to <b>{Math.min(indexOfLastItem, channels.length)}</b> of <b>{channels.length}</b> entries
           </small>
         </Card.Footer>
       </Card.Body>
@@ -461,18 +473,9 @@ export const ChannelsTable = () => {
 };
 
 export const UsersTable = () => {
-  const usersPerPage = 5;
-  const [currentPage, setCurrentPage] = useState(1);
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const [usersData, setUsersData] = useState(users);
-  const currentUsers = usersData.slice(indexOfFirstUser, indexOfLastUser);
-
-  const totalPages = Math.ceil(users.length / usersPerPage);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  const { currentItems, totalPages, currentPage, indexOfFirstItem, indexOfLastItem, handleFirstPageClick, handleLastPageClick, handlePageChange } =
+    usePagination(usersData);
 
   const [showMailModal, setShowMailModal] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState("");
@@ -590,7 +593,7 @@ export const UsersTable = () => {
               </tr>
             </thead>
             <tbody>
-              {currentUsers.map((user) => (
+              {currentItems.map((user) => (
                 <TableRow key={`user-${user.id}`} {...user} />
               ))}
             </tbody>
@@ -598,6 +601,7 @@ export const UsersTable = () => {
           <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
             <Nav>
               <Pagination className="mb-2 mb-lg-0">
+                <Pagination.First onClick={handleFirstPageClick} />
                 <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
                   Previous
                 </Pagination.Prev>
@@ -606,14 +610,14 @@ export const UsersTable = () => {
                     {page + 1}
                   </Pagination.Item>
                 ))}
-
                 <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                   Next
                 </Pagination.Next>
+                <Pagination.Last onClick={handleLastPageClick} />
               </Pagination>
             </Nav>
             <small className="fw-bold">
-              Showing <b>{indexOfFirstUser + 1}</b> to <b>{Math.min(indexOfLastUser, users.length)}</b> of <b>{users.length}</b> entries
+              Showing <b>{indexOfFirstItem + 1}</b> to <b>{Math.min(indexOfLastItem, usersData.length)}</b> of <b>{usersData.length}</b> entries
             </small>
           </Card.Footer>
         </Card.Body>
@@ -633,12 +637,12 @@ export const UsersTable = () => {
 };
 
 export const MerchantTable = () => {
-  const allUsers = users.length;
+  const [merchants, setMerchants] = useState(users);
+  const { currentItems, totalPages, currentPage, indexOfFirstItem, indexOfLastItem, handlePageChange, handleFirstPageClick, handleLastPageClick } =
+    usePagination(merchants);
 
   const [showMailModal, setShowMailModal] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState("");
-
-  const [merchants, setMerchants] = useState(users);
 
   const handleSendMailClick = (email) => {
     setShowMailModal(true);
@@ -755,7 +759,7 @@ export const MerchantTable = () => {
               </tr>
             </thead>
             <tbody>
-              {merchants.map((user) => (
+              {currentItems.map((user) => (
                 <TableRow key={`user-${user.id}`} {...user} />
               ))}
             </tbody>
@@ -763,17 +767,24 @@ export const MerchantTable = () => {
           <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
             <Nav>
               <Pagination className="mb-2 mb-lg-0">
-                <Pagination.Prev>Previous</Pagination.Prev>
-                <Pagination.Item active>1</Pagination.Item>
-                <Pagination.Item>2</Pagination.Item>
-                <Pagination.Item>3</Pagination.Item>
-                <Pagination.Item>4</Pagination.Item>
-                <Pagination.Item>5</Pagination.Item>
-                <Pagination.Next>Next</Pagination.Next>
+                <Pagination.First onClick={handleFirstPageClick} />
+                <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                  Previous
+                </Pagination.Prev>
+                {[...Array(totalPages).keys()].map((page) => (
+                  <Pagination.Item key={page + 1} active={page + 1 === currentPage} onClick={() => handlePageChange(page + 1)}>
+                    {page + 1}
+                  </Pagination.Item>
+                ))}
+
+                <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                  Next
+                </Pagination.Next>
+                <Pagination.Last onClick={handleLastPageClick} />
               </Pagination>
             </Nav>
             <small className="fw-bold">
-              Showing <b>{allUsers}</b> out of <b>25</b> entries
+              Showing <b>{indexOfFirstItem + 1}</b> to <b>{Math.min(indexOfLastItem, merchants.length)}</b> of <b>{merchants.length}</b> entries
             </small>
           </Card.Footer>
         </Card.Body>
@@ -793,7 +804,8 @@ export const MerchantTable = () => {
 };
 
 export const ServicesTable = ({ isAdmin }) => {
-  const totalTransactions = transactions.length;
+  const { currentItems, totalPages, currentPage, indexOfFirstItem, indexOfLastItem, handleFirstPageClick, handleLastPageClick, handlePageChange } =
+    usePagination(transactions);
 
   const TableRow = (props) => {
     const { transactionId, service, account, status, merchantId } = props;
@@ -831,9 +843,6 @@ export const ServicesTable = ({ isAdmin }) => {
               <Dropdown.Item>
                 <FontAwesomeIcon icon={faEdit} className="me-2" /> Deactivate
               </Dropdown.Item>
-              {/* <Dropdown.Item className="text-danger">
-                <FontAwesomeIcon icon={faTrashAlt} className="me-2" /> Remove
-              </Dropdown.Item> */}
             </Dropdown.Menu>
           </Dropdown>
         </td>
@@ -857,7 +866,7 @@ export const ServicesTable = ({ isAdmin }) => {
             </tr>
           </thead>
           <tbody>
-            {transactions.map((t) => (
+            {currentItems.map((t) => (
               <TableRow key={`transaction-${t.transactionId}`} {...t} />
             ))}
           </tbody>
@@ -865,17 +874,24 @@ export const ServicesTable = ({ isAdmin }) => {
         <Card.Footer className="px-3 border-0 d-lg-flex align-items-center justify-content-between">
           <Nav>
             <Pagination className="mb-2 mb-lg-0">
-              <Pagination.Prev>Previous</Pagination.Prev>
-              <Pagination.Item active>1</Pagination.Item>
-              <Pagination.Item>2</Pagination.Item>
-              <Pagination.Item>3</Pagination.Item>
-              <Pagination.Item>4</Pagination.Item>
-              <Pagination.Item>5</Pagination.Item>
-              <Pagination.Next>Next</Pagination.Next>
+              <Pagination.First onClick={handleFirstPageClick} />
+              <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+                Previous
+              </Pagination.Prev>
+              {[...Array(totalPages).keys()].map((page) => (
+                <Pagination.Item key={page + 1} active={page + 1 === currentPage} onClick={() => handlePageChange(page + 1)}>
+                  {page + 1}
+                </Pagination.Item>
+              ))}
+
+              <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+                Next
+              </Pagination.Next>
+              <Pagination.Last onClick={handleLastPageClick} />
             </Pagination>
           </Nav>
           <small className="fw-bold">
-            Showing <b>{totalTransactions}</b> out of <b>25</b> entries
+            Showing <b>{indexOfFirstItem + 1}</b> to <b>{Math.min(indexOfLastItem, transactions.length)}</b> of <b>{transactions.length}</b> entries
           </small>
         </Card.Footer>
       </Card.Body>

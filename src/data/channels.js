@@ -1,37 +1,98 @@
-
-
-export default[
-    {
-        "channelId":3786722,
-        "userName": "Ronald",
-        "callbackUrl": "url/url/23",
-        "shortCode": 345,
-        "status": "Active",
-        "channelName": "Client"
-    },
-    {
-        "channelId":486722,
-        "userName": "Nimrod",
-        "callbackUrl": "url/url/233",
-        "shortCode": 1215,
-        "status": "Active",
-        "channelName": "Client"
-    },
-    {
-        "channelId":37863722,
-        "userName": "Alex",
-        "callbackUrl": "url/url/2333",
-        "shortCode": 3453,
-        "status": "Inactive",
-        "channelName": "Admin"
-    },
-    {
-        "channelId":32786722,
-        "userName": "Glory",
-        "callbackUrl": "url/url/2343",
-        "shortCode": 1345,
-        "status": "Dormant",
-        "channelName": "Merchant"
-    },
-   
-]
+export default [
+  {
+    channelId: 3786722,
+    userName: "Ronald",
+    callbackUrl: "url/url/23",
+    shortCode: 345,
+    status: "Active",
+    channelName: "Client",
+  },
+  {
+    channelId: 486722,
+    userName: "Nimrod",
+    callbackUrl: "url/url/233",
+    shortCode: 1215,
+    status: "Active",
+    channelName: "Client",
+  },
+  {
+    channelId: 37863722,
+    userName: "Alex",
+    callbackUrl: "url/url/2333",
+    shortCode: 3453,
+    status: "Inactive",
+    channelName: "Admin",
+  },
+  {
+    channelId: 32786722,
+    userName: "Glory",
+    callbackUrl: "url/url/2343",
+    shortCode: 1345,
+    status: "Dormant",
+    channelName: "Merchant",
+  },
+  {
+    channelId: 12786722,
+    userName: "Juma",
+    callbackUrl: "url/url/2343",
+    shortCode: 1345,
+    status: "Dormant",
+    channelName: "Merchant",
+  },
+  {
+    channelId: 3002786722,
+    userName: "susan",
+    callbackUrl: "url/url/2343",
+    shortCode: 1345,
+    status: "Dormant",
+    channelName: "Merchant",
+  },
+  {
+    channelId: 9832786722,
+    userName: "sharon",
+    callbackUrl: "url/url/2343",
+    shortCode: 1345,
+    status: "Dormant",
+    channelName: "Merchant",
+  },
+  {
+    channelId: 4122786722,
+    userName: "ryan",
+    callbackUrl: "url/url/2343",
+    shortCode: 1345,
+    status: "Dormant",
+    channelName: "Merchant",
+  },
+  {
+    channelId: 11186722,
+    userName: "timothy",
+    callbackUrl: "url/url/2343",
+    shortCode: 1345,
+    status: "Dormant",
+    channelName: "Merchant",
+  },
+  {
+    channelId: 975786722,
+    userName: "steve",
+    callbackUrl: "url/url/2343",
+    shortCode: 1345,
+    status: "Dormant",
+    channelName: "Merchant",
+  },
+  {
+    channelId: 44386722,
+    userName: "ken",
+    callbackUrl: "url/url/2343",
+    shortCode: 1345,
+    status: "Dormant",
+    channelName: "Merchant",
+  },
+  {
+    channelId: 86432786722,
+    userName: "ben",
+    callbackUrl: "url/url/2343",
+    shortCode: 1345,
+    status: "Dormant",
+    channelName: "Merchant",
+  },
+];

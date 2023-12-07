@@ -57,15 +57,7 @@ const RouteWithSidebar = ({ component: Component, protectedRoute, ...rest }) => 
   const location = useLocation();
 
   useEffect(() => {
-    const loadUserFromStorage = () => {
-      const storedUser = JSON.parse(sessionStorage.getItem("user"));
-      if (storedUser) {
-        dispatch({ type: "LOGIN", payload: storedUser });
-      }
-    };
-
     const timer = setTimeout(() => {
-      loadUserFromStorage();
       setAuthLoading(false);
       setLoaded(true);
     }, 500);

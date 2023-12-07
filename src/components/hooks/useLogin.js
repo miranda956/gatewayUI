@@ -13,13 +13,14 @@ export const useLogin = () => {
   const { dispatch } = useAuthContext();
   const history = useHistory();
   const location = useLocation();
+  const storedUser = JSON.parse(sessionStorage.getItem("user"));
 
   const login = (email, password) => {
     console.log("Submitted Email:", email, "Password:", password);
-    const storedUser = JSON.parse(sessionStorage.getItem("user"));
 
     if (storedUser && storedUser.email === email && storedUser.password === password) {
       dispatch({ type: "LOGIN", payload: storedUser });
+      localStorage.setItem("user", JSON.stringify(storedUser));
 
       const { state } = location;
       if (state && state.from) {
@@ -34,5 +35,5 @@ export const useLogin = () => {
     }
   };
 
-  return { login, isLoading, error };
+  return { login, storedUser, isLoading, error };
 };
